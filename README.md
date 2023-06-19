@@ -1,1 +1,8 @@
-# City_Route_Optimization_Problem
+# City Route Optimization Problem
+
+
+## Authors:
+
+** Jason Ang
+** Patrick Wu
+** William Dinicola
