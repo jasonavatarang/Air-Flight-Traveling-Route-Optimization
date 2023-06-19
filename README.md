@@ -3,6 +3,6 @@
 
 ## Authors:
 
-** Jason Ang
-** Patrick Wu
-** William Dinicola
+Jason Ang
+Patrick Wu
+William Dinicola
