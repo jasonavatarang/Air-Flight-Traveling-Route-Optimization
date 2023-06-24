@@ -38,7 +38,7 @@ William Dinicola
 ### Public Datasets
 <ul>
 <li>https://simplemaps.com/data/world-cities</li>
-  <li>[A* algorithm<](https://www.kaggle.com/datasets/max-mind/world-cities-database?select=worldcitiespop.csv)</li>
+  <li>https://www.kaggle.com/datasets/max-mind/world-cities-database?select=worldcitiespop.csv</li>
   <li>Traveling Salesman Problem</li>
 </ul>
 
