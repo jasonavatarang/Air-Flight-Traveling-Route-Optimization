@@ -10,8 +10,6 @@ Patrick Wu
 William Dinicola
 
 
-## Project Title: Air Flight Traveling Route Optimization
-
 ### Problem
 <ul>
   <li>Finding the most optimal path with regard to airport/population size of air flight traveling from city to city.</li>
