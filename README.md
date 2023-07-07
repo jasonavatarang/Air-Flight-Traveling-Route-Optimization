@@ -37,7 +37,6 @@ William Dinicola
 <ul>
 <li>https://simplemaps.com/data/world-cities</li>
   <li>https://www.kaggle.com/datasets/max-mind/world-cities-database?select=worldcitiespop.csv</li>
-  <li>Traveling Salesman Problem</li>
 </ul>
 
 ### Libraries/API
