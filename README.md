@@ -1,6 +1,6 @@
 # Air Flight Traveling Route Optimization
 
-## Authors:
+## Authors
 <a href='https://www.linkedin.com/in/jasonang84/'>Jason Ang</a>, Patrick Wu, William Dinicola
 
 ___ 
