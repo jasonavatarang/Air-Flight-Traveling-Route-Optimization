@@ -1,14 +1,9 @@
 # Air Flight Traveling Route Optimization
 
-
 ## Authors:
+<a href='https://www.linkedin.com/in/jasonang84/'>Jason Ang</a>, Patrick Wu, William Dinicola
 
-Jason Ang
-
-Patrick Wu
-
-William Dinicola
-
+___ 
 
 ### Problem
 <ul>
@@ -16,7 +11,9 @@ William Dinicola
 </ul>
 
 ### How is that Problem Relevant
-<li>This implementation can be used to save the airplane industry billions of dollars of resources and labor cost. It will create an optimized system for routes based on population and flight availability.</li>
+<ul>
+  <li>This implementation can be used to save the airplane industry billions of dollars of resources and labor cost. It will create an optimized system for routes based on population and flight availability.</li>
+</ul>
 
 ### Plan/Outline
 <ul>
