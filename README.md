@@ -20,7 +20,7 @@ William Dinicola
 
 ### Plan/Outline
 <ul>
-<li>Create a website to house the visualization</li>
+<li>Create a gui application to house the visualization</li>
   <li>Users can search for cities</li>
 </ul>
 
