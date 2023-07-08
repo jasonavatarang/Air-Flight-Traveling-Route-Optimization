@@ -71,10 +71,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\Pat\source\repos\test\test\vender\imgui;C:\Users\Pat\source\repos\test\test\vender\imgui\backends;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)vender\imgui;$(ProjectDir)vender\imgui\backends;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\Pat\source\repos\test\test\vender\imgui;C:\Users\Pat\source\repos\test\test\vender\imgui\backends;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)vender\imgui;$(ProjectDir)vender\imgui\backends;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
