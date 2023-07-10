@@ -32,13 +32,13 @@ ___
 
 ### Public Datasets
 <ul>
-<li>https://simplemaps.com/data/world-cities</li>
-  <li>https://www.kaggle.com/datasets/max-mind/world-cities-database?select=worldcitiespop.csv</li>
+<li><a href='https://simplemaps.com/data/world-cities'>simplemaps Dataset</a></li>
+  <li><a href='https://www.kaggle.com/datasets/max-mind/world-cities-database?select=worldcitiespop.csv'>Kaggle Dataset: World Cities Database</a></li>
 </ul>
 
 ### Libraries/API
 <ul>
-<li>imgui</li>
+<li><a href='https://github.com/ocornut/imgui'>imgui</a></li>
 
 </ul>
 
