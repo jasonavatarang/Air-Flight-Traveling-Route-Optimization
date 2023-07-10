@@ -38,6 +38,7 @@ void sidebar()
             // Handle search button click event
             // You can use departureQuery and arrivalQuery values to perform the search
         }
+
     }
     ImGui::End();
 }
