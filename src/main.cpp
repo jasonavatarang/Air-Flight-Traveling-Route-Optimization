@@ -26,19 +26,20 @@ void sidebar()
 {
     ImGui::Text("Sidebar");
     {
-        static char searchQuery[256] = ""; // Search query buffer
+        static char departureQuery[256] = ""; // Departure city search query buffer
+        static char arrivalQuery[256] = "";   // Arrival city search query buffer
 
-        ImGui::InputText("From City", searchQuery, sizeof(searchQuery));
-        ImGui::InputText("To City", searchQuery, sizeof(searchQuery));
+        ImGui::InputText("Departure City", departureQuery, sizeof(departureQuery));
+        ImGui::InputText("Arrival City", arrivalQuery, sizeof(arrivalQuery));
 
         if (ImGui::Button("Find Distance"))
         {
-
             // Handle search button click event
-            // You can use the searchQuery value to perform the search
+            // You can use departureQuery and arrivalQuery values to perform the search
         }
     }
 }
+
 
 // Main code
 int main(int, char**)
