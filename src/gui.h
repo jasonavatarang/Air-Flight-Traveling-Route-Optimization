@@ -21,6 +21,7 @@ void CleanupDeviceD3D();
 void ResetDevice();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+
 void sidebar()
 {
     ImGui::Begin("Sidebar");
