@@ -8,8 +8,9 @@
 #include <d3d9.h>
 #include <tchar.h>
 #include "gui.h"
-int main(int, char**){
+
+int main(int, char**) {
 	window();
 
 	return 0;
-{
+}
