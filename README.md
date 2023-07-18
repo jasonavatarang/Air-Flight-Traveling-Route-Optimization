@@ -24,10 +24,7 @@ ___
 ### Algorithms/Data Structures Implemented
 <ul>
 <li>Dijkstra's algorithm</li>
-  <li>A* algorithm</li>
-  <li>Traveling Salesman Problem</li>
-  <li>Breath first</li>
-  <li>Depth first</li>
+<li>A* algorithm</li>
 </ul>
 
 ### Public Datasets
