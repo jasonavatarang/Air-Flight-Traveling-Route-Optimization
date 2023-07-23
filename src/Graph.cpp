@@ -35,7 +35,7 @@ void Graph::insert(string from, string to, int weight)
 	adj_list[ids[from]].push_back(make_pair(ids[to], weight));
 }
 
-vector<string> Graph::findShortestPath_Breath(string from, string to)
+vector<string> Graph::findShortestPath_BFS(string from, string to)
 {
 	queue<int> frontier;
 	frontier.push(ids[from]);
