@@ -4,6 +4,7 @@
 #include <d3d9.h>
 #include <tchar.h>
 #include "gui.h"
+#include "Graph.h"
 
 int main(int, char**) {
 	window();
