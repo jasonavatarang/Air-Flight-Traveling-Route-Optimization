@@ -16,23 +16,24 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	g.insert("A", "C", 60);
 	g.insert("C", "D", 5);
 
-	// Should be: A C D
-	for (string str : g.findShortestPath_BFS("A", "D")) {
+	vector<string> ans;
+
+	// Should be: A B C D
+	ans = g.findShortestPath_Astar("A", "D");
+	for (string str : ans) {
 		std::cout << str << " ";
 	}
 	std::cout << std::endl;
 
 	// Should be: A B C D
-	for (string str : g.findShortestPath_Astar("A", "D")) {
+	ans = g.findShortestPath_Dijkstra("A", "D");
+	for (string str : ans) {
 		std::cout << str << " ";
 	}
 	std::cout << std::endl;
 
-	// Should be: A B C D
-	for (string str : g.findShortestPath_Dijkstra("A", "D")) {
-		std::cout << str << " ";
-	}
-	std::cout << std::endl;
+	while (true) {
 
+	}
 
 }

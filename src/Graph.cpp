@@ -38,27 +38,28 @@ void Graph::insert(string from, string to, int weight)
 // Breadth First Search
 vector<string> Graph::findShortestPath_BFS(string from, string to)
 {
-	queue<int> frontier;
-	frontier.push(ids[from]);
+	//queue<int> frontier;
+	//frontier.push(ids[from]);
 
-	unordered_map<int, int> came_from;
-	came_from[ids[from]] = ids[from];
+	//unordered_map<int, int> came_from;
+	//came_from[ids[from]] = ids[from];
 
-	while (!frontier.empty()) {
-		int current = frontier.front();
-		frontier.pop();
+	//while (!frontier.empty()) {
+	//	int current = frontier.front();
+	//	frontier.pop();
 
-		if (current == ids[to])
-			break;
+	//	if (current == ids[to])
+	//		break;
 
-		for (pair<int, int> next : adj_list[current]) {
-			if (came_from.find(next.first) == came_from.end()) {
-				frontier.push(next.first);
-				came_from[next.first] = current;
-			}
-		}
-	}
-	return reconstruct_path(ids[from], ids[to], came_from);
+	//	for (pair<int, int> next : adj_list[current]) {
+	//		if (came_from.find(next.first) == came_from.end()) {
+	//			frontier.push(next.first);
+	//			came_from[next.first] = current;
+	//		}
+	//	}
+	//}
+	//return reconstruct_path(ids[from], ids[to], came_from);
+	return vector<string>();
 }
 
 vector<string> Graph::findShortestPath_Astar(string from, string to)
