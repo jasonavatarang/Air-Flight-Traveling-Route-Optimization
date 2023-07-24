@@ -78,19 +78,17 @@ vector<string> Graph::findShortestPath_Astar(string from, string to)
 			break;
 		}
 		for (pair<int, int> next : adj_list[current]) {
-			//for (Location next : graph.neighbors(current)) {
 			int new_cost = cost_so_far[current] + next.second;
 			if (cost_so_far.find(next.first) == cost_so_far.end()
 				|| new_cost < cost_so_far[next.first]) {
 				cost_so_far[next.first] = new_cost;
-				int priority = new_cost + next.second - adj_list[ids[from]][ids[to]].second; // heuristic(next, goal)
+				int priority = new_cost + abs(next.second - adj_list[ids[from]][ids[to]].second);
 				frontier.push(make_pair(next.first, priority));
 				came_from[next.first] = current;
 			}
 		}
 	}
 	return reconstruct_path(ids[from], ids[to], came_from);
-
 }
 
 vector<string> Graph::findShortestPath_Dijkstra(string from, string to)
