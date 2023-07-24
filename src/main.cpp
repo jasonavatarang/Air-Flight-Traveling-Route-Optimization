@@ -33,7 +33,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	std::cout << std::endl;
 
 	while (true) {
-
+		Sleep(10000);
 	}
 
 }
