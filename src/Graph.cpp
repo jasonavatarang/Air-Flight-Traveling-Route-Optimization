@@ -89,6 +89,8 @@ vector<string> Graph::findShortestPath_Astar(string from, string to)
 			}
 		}
 	}
+	return reconstruct_path(ids[from], ids[to], came_from);
+
 }
 
 vector<string> Graph::findShortestPath_Dijkstra(string from, string to)
