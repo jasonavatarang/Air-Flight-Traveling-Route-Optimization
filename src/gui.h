@@ -124,7 +124,7 @@ void window()
             ResetDevice();
         }
 
-        // Start the Dear ImGui frame
+        // Start the ImGui frame
         ImGui_ImplDX9_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
