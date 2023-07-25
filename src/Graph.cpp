@@ -64,7 +64,7 @@ vector<string> Graph::findShortestPath_BFS(string from, string to)
 
 vector<string> Graph::findShortestPath_Astar(string from, string to)
 {
-	priority_queue<pair<int, int> > frontier;
+	priority_queue<pair<int, int>> frontier;
 	frontier.push(make_pair(ids[from], 0));
 
 	unordered_map<int, int> came_from;
@@ -83,7 +83,7 @@ vector<string> Graph::findShortestPath_Astar(string from, string to)
 			if (cost_so_far.find(next.first) == cost_so_far.end()
 				|| new_cost < cost_so_far[next.first]) {
 				cost_so_far[next.first] = new_cost;
-				int priority = new_cost + abs(next.second - adj_list[ids[from]][ids[to]].second);
+				int priority = new_cost + adj_list[ids[from]][ids[to]].second;
 				frontier.push(make_pair(next.first, priority));
 				came_from[next.first] = current;
 			}
