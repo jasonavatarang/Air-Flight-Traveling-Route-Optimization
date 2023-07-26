@@ -157,8 +157,6 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="imgui\misc\cpp\imgui_stdlib.h" />
-    <ClInclude Include="src\algorithm\A.h" />
-    <ClInclude Include="src\algorithm\Dijkstra.h" />
     <ClInclude Include="src\gui.h" />
     <ClInclude Include="src\widgets.h" />
   </ItemGroup>
