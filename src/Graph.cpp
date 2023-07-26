@@ -23,7 +23,6 @@ vector<string> Graph::reconstruct_path(int start, int goal, unordered_map<int, i
 	}
 
 	path.push_back(names[start]);
-	reverse(path.begin(), path.end());
 	return path;
 }
 
@@ -64,8 +63,8 @@ vector<string> Graph::findShortestPath_BFS(string from, string to)
 
 vector<string> Graph::findShortestPath_Astar(string from, string to)
 {
-	priority_queue<pair<int, int>, vector<pair<int, int>>, pair<int, int> > frontier;
-	frontier.push(make_pair(ids[from], INT_MAX));
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int,int>>> frontier;
+    frontier.push(make_pair(ids[from], INT_MAX));
 
 	unordered_map<int, int> came_from;
 	unordered_map<int, int> cost_so_far;
@@ -94,7 +93,7 @@ vector<string> Graph::findShortestPath_Astar(string from, string to)
 
 vector<string> Graph::findShortestPath_Dijkstra(string from, string to)
 {
-	priority_queue<pair<int, int>,vector<pair<int, int>>, pair<int, int> > frontier;
+	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> frontier;
 	frontier.push(make_pair(ids[from], INT_MAX));
 
 	unordered_map<int, int> came_from;
