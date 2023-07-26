@@ -86,6 +86,9 @@
     <ClInclude Include="src\Graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\widgets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\misc\debuggers\imgui.natstepfilter" />

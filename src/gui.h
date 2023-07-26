@@ -8,6 +8,7 @@
 #include "imgui_impl_win32.h"
 #include <d3d9.h>
 #pragma comment(lib, "d3d9.lib")
+#include "widgets.h"
 
 // Data
 static LPDIRECT3D9              g_pD3D = nullptr;
@@ -21,37 +22,16 @@ void CleanupDeviceD3D();
 void ResetDevice();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-
-void sidebar()
-{
-    ImGui::Begin("Sidebar");
-    ImGui::Text("Sidebar");
-    {
-        static char departureQuery[256] = ""; // Departure city search query buffer
-        static char arrivalQuery[256] = "";   // Arrival city search query buffer
-
-        ImGui::InputText("Departure City", departureQuery, sizeof(departureQuery));
-        ImGui::InputText("Arrival City", arrivalQuery, sizeof(arrivalQuery));
-
-        if (ImGui::Button("Find Distance"))
-        {
-            // Handle search button click event
-            // You can use departureQuery and arrivalQuery values to perform the search
-        }
-
-    }
-    ImGui::End();
-}
-
-
-// Main code
+// Main window
 void window()
 {
     // Create application window
     //ImGui_ImplWin32_EnableDpiAwareness();
     WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"Path Optimizer", nullptr };
     ::RegisterClassExW(&wc);
-    HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Path Optimizer", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, nullptr, nullptr, wc.hInstance, nullptr);
+    int Win_WIDTH = 1200;
+    int Win_HEIGHT = 800;
+    HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Path Optimizer", WS_OVERLAPPEDWINDOW, (GetSystemMetrics(0) - Win_WIDTH) / 2, (GetSystemMetrics(1) - Win_HEIGHT) / 2, Win_WIDTH, Win_HEIGHT, nullptr, nullptr, wc.hInstance, nullptr);
 
     // Initialize Direct3D
     if (!CreateDeviceD3D(hwnd))
@@ -124,34 +104,15 @@ void window()
             ResetDevice();
         }
 
-        // Start the Dear ImGui frame
+        // Start the ImGui frame
         ImGui_ImplDX9_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
 
-
-        // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
-        {
-            static float f = 0.0f;
-            static int counter = 0;
-
-            ImGui::Begin("Statistic/Setting Bar");                          // Create a window called "Hello, world!" and append into it.
-
-            ImGui::Text("Summary");               // Display some text (you can use a format strings too)
-
-
-            //ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-            ImGui::End();
-        }
-
+        // Create widgets
         {
             sidebar();
         }
-
 
         // Rendering
         ImGui::EndFrame();
