@@ -18,6 +18,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 
 	vector<string> ans;
 
+	// Should be: A C D
+	ans = g.findShortestPath_BFS("A", "D");
+	for (string str : ans) {
+		std::cout << str << " ";
+	}
+	std::cout << std::endl;
+
 	// Should be: A B C D
 	ans = g.findShortestPath_Astar("A", "D");
 	for (string str : ans) {
