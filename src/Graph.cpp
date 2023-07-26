@@ -24,8 +24,8 @@ vector<string> Graph::reconstruct_path(int start, int to, unordered_map<int, int
 		path.push_back(names[current]);
 		current = came_from[current];
 	}
-
 	path.push_back(names[start]);
+	reverse(path.begin(), path.end());
 	return path;
 }
 
@@ -54,7 +54,6 @@ vector<string> Graph::findShortestPath_BFS(string from, string to)
 			break;
 
 		for (pair<int, int> next : adj_list[current]) {
-			std::cout << next.first << std::endl;
 			if (came_from.find(next.first) == came_from.end()) {
 				frontier.push(next.first);
 				came_from[next.first] = current;
