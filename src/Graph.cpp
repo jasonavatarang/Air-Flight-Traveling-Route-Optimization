@@ -26,7 +26,6 @@ vector<string> Graph::reconstruct_path(int start, int to, unordered_map<int, int
 	}
 
 	path.push_back(names[start]);
-	reverse(path.begin(), path.end());
 	return path;
 }
 
