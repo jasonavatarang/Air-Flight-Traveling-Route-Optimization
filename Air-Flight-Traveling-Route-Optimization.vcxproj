@@ -160,6 +160,7 @@
     <ClInclude Include="src\algorithm\A.h" />
     <ClInclude Include="src\algorithm\Dijkstra.h" />
     <ClInclude Include="src\gui.h" />
+    <ClInclude Include="src\widgets.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\misc\debuggers\imgui.natstepfilter" />
