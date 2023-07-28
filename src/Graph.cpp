@@ -114,7 +114,7 @@ vector<string> Graph::findShortestPath_Astar(string from, string to)
 			if (cost_so_far.find(next.first) == cost_so_far.end()
 				|| new_cost < cost_so_far[next.first]) {
 				cost_so_far[next.first] = new_cost;
-				int priority = new_cost + adj_list[ids[from]][ids[to]].second;
+				int priority = new_cost;
 				frontier.push(make_pair(next.first, priority));
 				came_from[next.first] = current;
 			}
