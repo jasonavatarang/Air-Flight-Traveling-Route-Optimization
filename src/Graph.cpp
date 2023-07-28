@@ -3,7 +3,7 @@
 #include <corecrt_math_defines.h>
 
 
-long double Graph::toRadians(const long double& degree)
+double Graph::toRadians(const double& degree)
 {
 	// cmath library in C++
 	// defines the constant
@@ -13,8 +13,8 @@ long double Graph::toRadians(const long double& degree)
 	return (one_deg * degree);
 }
 
-long double Graph::distance(long double lat1, long double long1,
-	long double lat2, long double long2)
+int Graph::distance(double lat1, double long1,
+	double lat2, double long2)
 {
 	// Convert the latitudes
 	// and longitudes
