@@ -103,7 +103,7 @@ vector<string> Graph::findShortestPath_Astar(string from, string to)
 
 	//while (!frontier.empty()) {
 	//	int current = frontier.top().first;
-
+	//	frontier.pop();
 	//	if (names[current] == to) {
 	//		break;
 	//	}
@@ -181,7 +181,22 @@ vector<string> Graph::findShortestPath_Dijkstra(string from, string to)
 	vector<int> cost_so_far(size, INT_MAX);
 	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > frontier;
 
+	while (!frontier.empty()) {
+		int current = frontier.top().first;
 
+		if (names[current] == to) {
+			break;
+		}
+		for (pair<int, int> next : adj_list[current]) {
+			int new_cost = cost_so_far[current] + next.second;
+			if (cost_so_far.find(next.first) == cost_so_far.end()
+				|| new_cost < cost_so_far[next.first]) {
+				cost_so_far[next.first] = new_cost;
+				came_from[next.first] = current;
+				frontier.push(make_pair(next.first, new_cost));
+			}
+		}
+	}
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
 
