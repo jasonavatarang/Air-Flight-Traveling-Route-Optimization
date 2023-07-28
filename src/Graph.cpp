@@ -92,6 +92,7 @@ vector<string> Graph::findShortestPath_Astar(string from, string to)
     }
   }
 	*/
+	auto start = std::chrono::high_resolution_clock::now();
 
 	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > frontier;
 	frontier.push(make_pair(ids[from], INT_MAX));
@@ -108,8 +109,6 @@ vector<string> Graph::findShortestPath_Astar(string from, string to)
 			break;
 		}
 		for (pair<int, int> next : adj_list[current]) {
-			cout << "bruh" << endl;
-
 			int new_cost = cost_so_far[current] + next.second;
 			if (cost_so_far.find(next.first) == cost_so_far.end()
 				|| new_cost < cost_so_far[next.first]) {
@@ -120,6 +119,9 @@ vector<string> Graph::findShortestPath_Astar(string from, string to)
 			}
 		}
 	}
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
+	cout << "Time Computation: " << diff.count() * 1000.0 << endl;
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
 
@@ -152,6 +154,8 @@ vector<string> Graph::findShortestPath_Dijkstra(string from, string to)
   }
 }
 	*/
+	auto start = std::chrono::high_resolution_clock::now();
+
 	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > frontier;
 	frontier.push(make_pair(ids[from], INT_MAX));
 
@@ -174,8 +178,10 @@ vector<string> Graph::findShortestPath_Dijkstra(string from, string to)
 				came_from[next.first] = current;
 				frontier.push(make_pair(next.first, new_cost));
 			}
-			cout << "ni" << endl;
 		}
 	}
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
+	cout << "Time Computation: " << diff.count() * 1000.0 << endl;
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
