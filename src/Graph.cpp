@@ -93,34 +93,35 @@ vector<string> Graph::findShortestPath_Astar(string from, string to)
   }
 	*/
 
-	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > frontier;
-	frontier.push(make_pair(ids[from], INT_MAX));
+	//priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > frontier;
+	//frontier.push(make_pair(ids[from], INT_MAX));
 
-	unordered_map<int, int> came_from;
-	unordered_map<int, int> cost_so_far;
-	came_from[ids[from]] = ids[from];
-	cost_so_far[ids[from]] = 0;
+	//unordered_map<int, int> came_from;
+	//unordered_map<int, int> cost_so_far;
+	//came_from[ids[from]] = ids[from];
+	//cost_so_far[ids[from]] = 0;
 
-	while (!frontier.empty()) {
-		int current = frontier.top().first;
+	//while (!frontier.empty()) {
+	//	int current = frontier.top().first;
 
-		if (names[current] == to) {
-			break;
-		}
-		for (pair<int, int> next : adj_list[current]) {
-			cout << "bruh" << endl;
+	//	if (names[current] == to) {
+	//		break;
+	//	}
+	//	for (pair<int, int> next : adj_list[current]) {
+	//		cout << "bruh" << endl;
 
-			int new_cost = cost_so_far[current] + next.second;
-			if (cost_so_far.find(next.first) == cost_so_far.end()
-				|| new_cost < cost_so_far[next.first]) {
-				cost_so_far[next.first] = new_cost;
-				int priority = new_cost + adj_list[ids[from]][ids[to]].second;
-				frontier.push(make_pair(next.first, priority));
-				came_from[next.first] = current;
-			}
-		}
-	}
-	return reconstruct_path(ids[from], ids[to], came_from);
+	//		int new_cost = cost_so_far[current] + next.second;
+	//		if (cost_so_far.find(next.first) == cost_so_far.end()
+	//			|| new_cost < cost_so_far[next.first]) {
+	//			cost_so_far[next.first] = new_cost;
+	//			int priority = new_cost + adj_list[ids[from]][ids[to]].second;
+	//			frontier.push(make_pair(next.first, priority));
+	//			came_from[next.first] = current;
+	//		}
+	//	}
+	//}
+	//return reconstruct_path(ids[from], ids[to], came_from);
+	return vector<string>();
 }
 
 vector<string> Graph::findShortestPath_Dijkstra(string from, string to)
@@ -152,29 +153,36 @@ vector<string> Graph::findShortestPath_Dijkstra(string from, string to)
   }
 }
 	*/
+	//priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > frontier;
+	//frontier.push(make_pair(ids[from], INT_MAX));
+
+	//unordered_map<int, int> came_from;
+	//unordered_map<int, int> cost_so_far;
+	//came_from[ids[from]] = ids[from];
+	//cost_so_far[ids[from]] = 0;
+
+	//while (!frontier.empty()) {
+	//	int current = frontier.top().first;
+	//	cout << current << endl;
+
+	//	if (names[current] == to) {
+	//		break;
+	//	}
+	//	for (pair<int, int> next : adj_list[current]) {
+	//		int new_cost = cost_so_far[current] + next.second;
+	//		if (cost_so_far.find(next.first) == cost_so_far.end() || new_cost < cost_so_far[next.first]) {
+	//			cost_so_far[next.first] = new_cost;
+	//			came_from[next.first] = current;
+	//			frontier.push(make_pair(next.first, new_cost));
+	//		}
+	//	}
+	//}
+
+	vector<int> cost_so_far(size, INT_MAX);
 	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > frontier;
-	frontier.push(make_pair(ids[from], INT_MAX));
 
-	unordered_map<int, int> came_from;
-	unordered_map<int, int> cost_so_far;
-	came_from[ids[from]] = ids[from];
-	cost_so_far[ids[from]] = 0;
 
-	while (!frontier.empty()) {
-		int current = frontier.top().first;
-
-		if (names[current] == to) {
-			break;
-		}
-		for (pair<int, int> next : adj_list[current]) {
-			int new_cost = cost_so_far[current] + next.second;
-			if (cost_so_far.find(next.first) == cost_so_far.end()
-				|| new_cost < cost_so_far[next.first]) {
-				cost_so_far[next.first] = new_cost;
-				came_from[next.first] = current;
-				frontier.push(make_pair(next.first, new_cost));
-			}
-		}
-	}
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
+
+
