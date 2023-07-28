@@ -1,6 +1,50 @@
 #include "Graph.h"
-
 #include <iostream>
+#include <corecrt_math_defines.h>
+
+
+long double Graph::toRadians(const long double& degree)
+{
+	// cmath library in C++
+	// defines the constant
+	// M_PI as the value of
+	// pi accurate to 1e-30
+	long double one_deg = (M_PI) / 180;
+	return (one_deg * degree);
+}
+
+long double Graph::distance(long double lat1, long double long1,
+	long double lat2, long double long2)
+{
+	// Convert the latitudes
+	// and longitudes
+	// from degree to radians.
+	lat1 = toRadians(lat1);
+	long1 = toRadians(long1);
+	lat2 = toRadians(lat2);
+	long2 = toRadians(long2);
+
+	// Haversine Formula
+	long double dlong = long2 - long1;
+	long double dlat = lat2 - lat1;
+
+	long double ans = pow(sin(dlat / 2), 2) +
+		cos(lat1) * cos(lat2) *
+		pow(sin(dlong / 2), 2);
+
+	ans = 2 * asin(sqrt(ans));
+
+	// Radius of Earth in
+	// Kilometers, R = 6371
+	// Use R = 3956 for miles
+	long double R = 6371;
+
+	// Calculate the result
+	ans = ans * R;
+
+	return ans;
+}
+
 
 // Initialize one single node
 void Graph::add(string element)
@@ -62,6 +106,8 @@ vector<string> Graph::findShortestPath_BFS(string from, string to)
 	}
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
+
+
 
 std::pair<vector<string>,double> Graph::findShortestPath_Astar(string from, string to)
 {
