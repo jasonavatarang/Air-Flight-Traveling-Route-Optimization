@@ -1,6 +1,50 @@
 #include "Graph.h"
-
 #include <iostream>
+#include <corecrt_math_defines.h>
+
+
+double Graph::toRadians(const double& degree)
+{
+	// cmath library in C++
+	// defines the constant
+	// M_PI as the value of
+	// pi accurate to 1e-30
+	long double one_deg = (M_PI) / 180;
+	return (one_deg * degree);
+}
+
+int Graph::distance(double lat1, double long1,
+	double lat2, double long2)
+{
+	// Convert the latitudes
+	// and longitudes
+	// from degree to radians.
+	lat1 = toRadians(lat1);
+	long1 = toRadians(long1);
+	lat2 = toRadians(lat2);
+	long2 = toRadians(long2);
+
+	// Haversine Formula
+	long double dlong = long2 - long1;
+	long double dlat = lat2 - lat1;
+
+	long double ans = pow(sin(dlat / 2), 2) +
+		cos(lat1) * cos(lat2) *
+		pow(sin(dlong / 2), 2);
+
+	ans = 2 * asin(sqrt(ans));
+
+	// Radius of Earth in
+	// Kilometers, R = 6371
+	// Use R = 3956 for miles
+	long double R = 6371;
+
+	// Calculate the result
+	ans = ans * R;
+
+	return ans;
+}
+
 
 // Initialize one single node
 void Graph::add(string element)
@@ -63,8 +107,12 @@ vector<string> Graph::findShortestPath_BFS(string from, string to)
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
 
-vector<string> Graph::findShortestPath_Astar(string from, string to)
+
+
+std::pair<vector<string>,double> Graph::findShortestPath_Astar(string from, string to)
 {
+	auto start = std::chrono::high_resolution_clock::now();
+
 	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > frontier;
 	frontier.push(make_pair(ids[from], INT_MAX));
 
@@ -83,17 +131,23 @@ vector<string> Graph::findShortestPath_Astar(string from, string to)
 			int new_cost = cost_so_far[current] + next.second;
 			if (cost_so_far.find(next.first) == cost_so_far.end() || new_cost < cost_so_far[next.first]) {
 				cost_so_far[next.first] = new_cost;
-				int priority = new_cost;
+				int priority = new_cost ; // heuristic formula
 				frontier.push(make_pair(next.first, priority));
 				came_from[next.first] = current;
 			}
 		}
 	}
-	return reconstruct_path(ids[from], ids[to], came_from);
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
+	double time = diff.count() * 1000.0;
+	cout << "Time Computation (ms): " << time << endl;
+	return std::make_pair(reconstruct_path(ids[from], ids[to], came_from), time);
 }
 
-vector<string> Graph::findShortestPath_Dijkstra(string from, string to)
+std::pair<vector<string>,double> Graph::findShortestPath_Dijkstra(string from, string to)
 {
+	auto start = std::chrono::high_resolution_clock::now();
+
 	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > frontier;
 	frontier.push(make_pair(ids[from], INT_MAX));
 
@@ -117,7 +171,10 @@ vector<string> Graph::findShortestPath_Dijkstra(string from, string to)
 			}
 		}
 	}
-	return reconstruct_path(ids[from], ids[to], came_from);
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
+	double time = diff.count() * 1000.0;
+	cout << "Time Computation (ms): " << time << endl;
+	return std::make_pair(reconstruct_path(ids[from], ids[to], came_from), time);
 }
-
-
