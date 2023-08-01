@@ -18,15 +18,33 @@ int main() {
 	cout << "\n\n";
 
 	vector <string> ans;
+	unsigned int cost;
 	unsigned int time;
-	ans = g.Dijkstra("Madang", "Thule", time);
+
+
+	cout << "BFS:\n";
+	ans = g.BFS("Madang", "Thule", cost, time);
 	if (ans.size() == 0)
 		cout << "No path\n";
 	for (string str : ans) {
 		cout << str << " -> ";
 	}
 	cout << "ARRIVED\n";
-	cout << "Used time: " << time << " ms\n";
+	cout << "Distance: " << cost << " km\n\n";
+	cout << "Used time: " << time << " ms\n\n";
+
+
+	cout << "Dijkstra:\n";
+	ans = g.Dijkstra("Madang", "Thule", cost, time);
+	if (ans.size() == 0)
+		cout << "No path\n";
+	for (string str : ans) {
+		cout << str << " -> ";
+	}
+	cout << "ARRIVED\n";
+	cout << "Distance: " << cost << " km\n\n";
+	cout << "Used time: " << time << " ms\n\n";
+
 
 
 
