@@ -13,8 +13,9 @@ int main() {
 
 	//if (mode == 1){}
 	Data d;
-	d.open("C:\\Users\\Pat\\source\\repos\\Air-Flight-Traveling-Route-Optimization\\data\\data");
-
+	d.openRaw("data\\data");
+	d.randomizeFlights(10);
+	d.printFlights();
 
 	//Graph g;
 	//g.insert("A", "B", 10);
