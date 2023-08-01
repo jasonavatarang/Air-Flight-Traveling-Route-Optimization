@@ -177,5 +177,5 @@ vector<string> Graph::findShortestPath_Dijkstra(string from, string to)
 	std::chrono::duration<double> diff = end - start;
 	double time = diff.count() * 1000.0;
 	cout << "Time Computation (ms): " << time << endl;
-	return reconstruct_path(ids[from], ids[to], came_from;
+	return reconstruct_path(ids[from], ids[to], came_from);
 }

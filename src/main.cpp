@@ -45,7 +45,6 @@ int main() {
 	}
 
 	//TEST 2
-	
 	Graph object2;
 	object2.airportCoordinates["Orlando"] = std::make_pair(28.54, 81.37);
 	object2.airportCoordinates["NYC"] = std::make_pair(35.15, 90.05);
@@ -64,8 +63,8 @@ int main() {
 	//LINE BELOW CONNECTS A SHORTER PATH
 	object2.insert("Raleigh", "Memphis", 632);
 
-	vector <string> ans11;
-	vector <string> ans22;
+	vector<string> ans11;
+	vector<string> ans22;
 	ans = object.findShortestPath_Dijkstra("Orlando", "Memphis");
 	ans2 = object.findShortestPath_Astar("Orlando", "Memphis");
 
