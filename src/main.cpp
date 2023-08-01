@@ -9,8 +9,8 @@ int main() {
 	// Still want GUI?
 	//window();
 
-	int mode = 0;
-	cin >> mode;
+	//int mode = 0;
+	//cin >> mode;
 
 	if (mode == 1){}
 	//TEST 1
