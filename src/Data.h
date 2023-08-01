@@ -1,22 +1,22 @@
 #pragma once
 
+struct Airport {
+	char name[30]{};
+	double latitude = 0;
+	double longitude = 0;
+};
+struct Flight {
+	char from[30]{};
+	char to[30]{};
+	unsigned int distance = 0;
+};
+
 class Data
 {
-	struct flight {
-		char from[30]{};
-		char to[30]{};
-		unsigned int distance = 0;
-	};
-	struct airport {
-		char name[30]{};
-		double latitude = 0;
-		double longitude = 0;
-	};
-
-	std::vector<airport> airports;
+	std::vector<Airport> airports;
 
 public:
-	bool open(char* filename);
+	bool open(std::string filename);
 
 };
 

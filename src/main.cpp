@@ -8,10 +8,12 @@ int main() {
 	// Still want GUI?
 	//window();
 
-	int mode = 0;
-	cin >> mode;
+	//int mode = 0;
+	//cin >> mode;
 
-	if (mode == 1){}
+	//if (mode == 1){}
+	Data d;
+	d.open("C:\\Users\\Pat\\source\\repos\\Air-Flight-Traveling-Route-Optimization\\data\\data");
 
 
 	//Graph g;
