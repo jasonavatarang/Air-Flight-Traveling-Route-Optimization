@@ -29,6 +29,6 @@ public:
 	unordered_map <string, pair<double,double>> airportCoordinates;
 	void insert(string from, string to, int weight);
 	vector<string> findShortestPath_BFS(string from, string to);
-	std::pair<vector<string>, double> findShortestPath_Astar(string from, string to);
-	std::pair<vector<string>, double> findShortestPath_Dijkstra(string from, string to);
+	vector<string> findShortestPath_Astar(string from, string to);
+	vector<string> findShortestPath_Dijkstra(string from, string to);
 };    
