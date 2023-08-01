@@ -9,7 +9,7 @@ bool Data::open(char* filename)
 	ifstream fin(filename, ifstream::in);
 
 	while (fin.good()) {
-		fin.getline()
+		//fin.getline()
 	}
 
 	return false;
