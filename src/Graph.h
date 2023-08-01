@@ -20,20 +20,6 @@ private:
 	unordered_map <string, pair<int, int>> airportCoordinates;
 	unordered_map <string, string> flights;
 
-	struct FlightsInfo
-	{
-		string from_airport;
-		string to_airport;
-		unsigned int distance;
-	};
-
-	struct AirportInfo
-	{
-		string airport;
-		double latitude;
-		double longitude;
-	};
-
 	// adjacency list
 	vector<vector<pair<int, int>>> adj_list; // adj_list<id, weight>
 	double toRadians(const double& degree);
