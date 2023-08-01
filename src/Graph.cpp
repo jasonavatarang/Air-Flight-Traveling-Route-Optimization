@@ -1,6 +1,5 @@
 #include <queue>
 #include <iostream>
-#include <utility>
 #include <chrono>
 #include <corecrt_math_defines.h>
 
@@ -14,7 +13,7 @@ double Graph::toRadians(const double& degree)
 	return (one_deg * degree);
 }
 
-unsigned int Graph::distance(double lat1, double lon1, double lat2, double lon2)
+unsigned int Graph::GCdistance(double lat1, double lon1, double lat2, double lon2)
 {
 	// Convert the latitudes and longitudes from degree to radians
 	lat1 = toRadians(lat1);
@@ -89,48 +88,106 @@ void Graph::insert(Data& data)
 			data.airports[data.flights[i].to_id].latitude, data.airports[data.flights[i].to_id].longitude);
 }
 
-
-vector<string> Graph::Astar(string from, string to)
+// Breadth First Search
+vector<string> Graph::BFS(string from, string to, unsigned int& cost)
 {
-	return std::vector<string>();
-	//auto start = std::chrono::high_resolution_clock::now();
+	queue<int> q;
+	vector<int> came_from(size, -1);
+	vector<unsigned int> cost_so_far(size, UINT_MAX);
+	vector<bool> visited(size, false);
 
-	//priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > frontier;
-	//frontier.push(make_pair(ids[from], INT_MAX));
+	q.push(ids[from]);
 
-	//unordered_map<int, int> came_from;
-	//unordered_map<int, int> cost_so_far;
-	//came_from[ids[from]] = ids[from];
-	//cost_so_far[ids[from]] = 0;
+	while (!q.empty()) {
+		int current = q.front();
+		visited[current] = true;
+		q.pop();
 
-	//while (!frontier.empty()) {
-	//	int current = frontier.top().first;
-	//	frontier.pop();
-	//	if (names[current] == to) {
-	//		break;
-	//	}
-	//	
-	//	for (pair<int, int> next : adj_list[current]) {
-	//		int new_cost = cost_so_far[current] + next.second;
-	//		if (cost_so_far.find(next.first) == cost_so_far.end() || new_cost < cost_so_far[next.first]) {
-	//			cost_so_far[next.first] = new_cost;
-	//			int priority = new_cost + abs(distance(airportCoordinates[from].first, airportCoordinates[from].second, airportCoordinates[to].first, airportCoordinates[to].second)); // heuristic formula: haversine
-	//			frontier.push(make_pair(next.first, priority));
-	//			came_from[next.first] = current;
-	//		}
-	//	}
-	//}
-	//auto end = std::chrono::high_resolution_clock::now();
-	//std::chrono::duration<double> diff = end - start;
-	//double time = diff.count() * 1000.0;
-	//cout << "Time Computation (ms): " << time << endl;
-	//return reconstruct_path(ids[from], ids[to], came_from);
+		if (current == ids[to]) {
+			break;
+		}
+
+		for (pair<int, unsigned int>& next : adj_list[current]) {
+			if (!visited[next.first]) {
+				came_from[next.first] = current;
+				cost_so_far[next.first] = cost_so_far[current] + next.second;
+				q.push(next.first);
+			}
+		}
+	}
+	cost = cost_so_far[ids[to]];
+	return reconstruct_path(ids[from], ids[to], came_from);
 }
 
-vector<string> Graph::Dijkstra(string from, string to)
+vector<string> Graph::BFS(string from, string to, unsigned int& cost, unsigned int& time)
+{
+	auto start = chrono::steady_clock::now();
+
+	vector<string> result = BFS(from, to, cost);
+
+	auto stop = chrono::steady_clock::now();
+	auto duration = chrono::duration_cast <chrono::microseconds> (stop - start);
+	time = duration.count();
+
+	return result;
+}
+
+// A* Search
+vector<string> Graph::Astar(string from, string to, unsigned int& cost)
 {
 	// pq<weight, node_id> ordered by the first element
-	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+	priority_queue<pair<unsigned int, int>, vector<pair<unsigned int, int>>, greater<pair<unsigned int, int>>> pq;
+	vector<int> came_from(size, -1);
+	vector<unsigned int> cost_so_far(size, UINT_MAX);
+	vector<bool> visited(size, false);
+
+	pair<double, double> dest_coordinates(coordinates[ids[to]].first, coordinates[ids[to]].second);
+
+	cost_so_far[ids[from]] = 0;
+	pq.emplace(cost_so_far[ids[from]], ids[from]);
+
+	while (!pq.empty()) {
+		int current = pq.top().second;
+		visited[current] = true;
+		pq.pop();
+
+		if (current == ids[to]) {
+			break;
+		}
+
+		for (pair<int, unsigned int>& next : adj_list[current]) {
+			unsigned int new_cost = cost_so_far[current] + next.second;
+			if (new_cost < cost_so_far[next.first]) {
+				came_from[next.first] = current;
+				cost_so_far[next.first] = new_cost;
+			}
+			// Heuristic formula: cost_so_far + distance_to_destination
+			if (!visited[next.first])
+				pq.emplace(cost_so_far[next.first] + GCdistance(coordinates[next.first].first, coordinates[next.first].second, dest_coordinates.first, dest_coordinates.second), next.first);
+		}
+	}
+	cost = cost_so_far[ids[to]];
+	return reconstruct_path(ids[from], ids[to], came_from);
+}
+
+vector<string> Graph::Astar(string from, string to, unsigned int& cost, unsigned int& time)
+{
+	auto start = chrono::steady_clock::now();
+
+	vector<string> result = Astar(from, to, cost);
+
+	auto stop = chrono::steady_clock::now();
+	auto duration = chrono::duration_cast <chrono::microseconds> (stop - start);
+	time = duration.count();
+
+	return result;
+}
+
+// Dijkstra Search
+vector<string> Graph::Dijkstra(string from, string to, unsigned int& cost)
+{
+	// pq<weight, node_id> ordered by the first element
+	priority_queue<pair<unsigned int, int>, vector<pair<unsigned int, int>>, greater<pair<unsigned int, int>>> pq;
 	vector<int> came_from(size, -1);
 	vector<unsigned int> cost_so_far(size, UINT_MAX);
 	vector<bool> visited(size, false);
@@ -150,21 +207,22 @@ vector<string> Graph::Dijkstra(string from, string to)
 		for (pair<int, unsigned int>& next : adj_list[current]) {
 			unsigned int new_cost = cost_so_far[current] + next.second;
 			if (new_cost < cost_so_far[next.first]) {
-				cost_so_far[next.first] = new_cost;
 				came_from[next.first] = current;
+				cost_so_far[next.first] = new_cost;
 			}
 			if (!visited[next.first])
 				pq.emplace(cost_so_far[next.first], next.first);
 		}
 	}
+	cost = cost_so_far[ids[to]];
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
 
-vector<string> Graph::Dijkstra(string from, string to, unsigned int& time)
+vector<string> Graph::Dijkstra(string from, string to, unsigned int& cost, unsigned int& time)
 {
 	auto start = chrono::steady_clock::now();
 
-	vector<string> result = Dijkstra(from, to);
+	vector<string> result = Dijkstra(from, to, cost);
 
 	auto stop = chrono::steady_clock::now();
 	auto duration = chrono::duration_cast <chrono::microseconds> (stop - start);

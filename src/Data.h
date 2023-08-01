@@ -14,7 +14,7 @@ class Data
 	};
 
 	double toRadians(const double& degree);
-	unsigned int distance(double lat1, double long1, double lat2, double long2);
+	unsigned int GCdistance(double lat1, double long1, double lat2, double long2);
 
 public:
 	std::vector<Airport> airports;

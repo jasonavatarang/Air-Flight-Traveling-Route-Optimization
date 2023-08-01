@@ -14,7 +14,7 @@ double Data::toRadians(const double& degree)
 	return (one_deg * degree);
 }
 
-unsigned int Data::distance(double lat1, double long1, double lat2, double long2)
+unsigned int Data::GCdistance(double lat1, double long1, double lat2, double long2)
 {
 	// Convert the latitudes and longitudes from degree to radians
 	lat1 = toRadians(lat1);
@@ -86,7 +86,7 @@ void Data::randomizeFlights(int num)
 		if (flight.from_id == flight.to_id)
 			continue;
 
-		flight.distance = distance(airports[flight.from_id].latitude, airports[flight.from_id].longitude, airports[flight.to_id].latitude, airports[flight.to_id].longitude);
+		flight.distance = GCdistance(airports[flight.from_id].latitude, airports[flight.from_id].longitude, airports[flight.to_id].latitude, airports[flight.to_id].longitude);
 		flights.push_back(flight);
 		--num;
 	}
