@@ -17,6 +17,7 @@ int main() {
 	d.randomizeFlights(10);
 	d.printFlights();
 
+
 	//Graph g;
 	//g.insert("A", "B", 10);
 	//g.insert("B", "C", 30);
