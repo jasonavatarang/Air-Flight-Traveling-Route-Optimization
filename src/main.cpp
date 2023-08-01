@@ -39,10 +39,12 @@ int main() {
 	for (string str : ans) {
 		cout << str << " ";
 	}
+	cout << endl;
 	for (string str : ans2)
 	{
 		cout << str << " ";
 	}
+	cout << endl;
 
 	//TEST 2
 	Graph object2;
@@ -65,17 +67,19 @@ int main() {
 
 	vector<string> ans11;
 	vector<string> ans22;
-	ans = object.findShortestPath_Dijkstra("Orlando", "Memphis");
-	ans2 = object.findShortestPath_Astar("Orlando", "Memphis");
+	ans11 = object2.findShortestPath_Dijkstra("Orlando", "Memphis");
+	ans22 = object2.findShortestPath_Astar("Orlando", "Memphis");
 
 	for (string str : ans11)
 	{
 		cout << str << " ";
 	}
+	cout << endl;
 	for (string str : ans22)
 	{
 		cout << str << " ";
 	}
+	cout << endl;
 
 	//shorter of two paths 1785 mi - orlando  - cincinatti - raleigh - memphis
 	
