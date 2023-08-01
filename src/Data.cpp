@@ -95,5 +95,5 @@ void Data::randomizeFlights(int num)
 void Data::printFlights()
 {
 	for (Flight& f : flights)
-		cout << f.from_id << " " << f.to_id << " " << f.distance << endl;
+		cout << airports[f.from_id].name << " -> " << airports[f.to_id].name << " : " << f.distance << endl;
 }

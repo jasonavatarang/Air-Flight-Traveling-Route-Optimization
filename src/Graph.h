@@ -2,33 +2,35 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
-#include <queue>
-#include <iostream>
-#include <utility>
-#include <chrono>
-#include <cmath>
 
-using namespace std;
+#include "Data.h"
+
 class Graph
 {
 private:
 	int size = 0;
 
 	// id
-	unordered_map<string, int> ids;
-	vector<string> names;
-	unordered_map <string, string> flights;
+	std::unordered_map<std::string, int> ids;
+	std::vector<std::string> names;
 
 	// adjacency list
-	vector<vector<pair<int, int>>> adj_list; // adj_list<id, weight>
+	std::vector<std::vector<std::pair<int, unsigned int>>> adj_list; // adj_list<id, weight>
+
+	// coordinates
+	std::vector<std::pair<double, double>> coordinates;
+
 	double toRadians(const double& degree);
-	int distance(double lat1, double long1, double lat2, double long2);
-	void add(string element);
-	vector<string> reconstruct_path(int start, int goal, unordered_map<int, int> came_from);
+	unsigned int distance(double lat1, double long1, double lat2, double long2);
+
+	void add(std::string& element, double& lat, double& lon);
+	std::vector<std::string> reconstruct_path(int start, int to, std::vector<int>& came_from);
+
 public:
-	unordered_map <string, pair<double,double>> airportCoordinates;
-	void insert(string from, string to, int weight);
-	vector<string> findShortestPath_BFS(string from, string to);
-	vector<string> findShortestPath_Astar(string from, string to);
-	vector<string> findShortestPath_Dijkstra(string from, string to);
+	void insert(std::string from, std::string to, unsigned int weight, double lat1, double long1, double lat2, double long2);
+	void insert(Data& data);
+	std::vector<std::string> Astar(std::string from, std::string to);
+	std::vector<std::string> Astar(std::string from, std::string to, unsigned int& time);
+	std::vector<std::string> Dijkstra(std::string from, std::string to);
+	std::vector<std::string> Dijkstra(std::string from, std::string to, unsigned int& time);
 };    
