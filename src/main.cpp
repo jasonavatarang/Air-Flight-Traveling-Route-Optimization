@@ -30,7 +30,7 @@ int main() {
 		cout << str << " -> ";
 	}
 	cout << "ARRIVED\n";
-	cout << "Distance: " << cost << " km\n\n";
+	cout << "Distance: " << cost << " km\n";
 	cout << "Used time: " << time << " ms\n\n";
 
 
@@ -42,10 +42,20 @@ int main() {
 		cout << str << " -> ";
 	}
 	cout << "ARRIVED\n";
-	cout << "Distance: " << cost << " km\n\n";
+	cout << "Distance: " << cost << " km\n";
 	cout << "Used time: " << time << " ms\n\n";
 
 
+	cout << "Astar:\n";
+	ans = g.Astar("Madang", "Thule", cost, time);
+	if (ans.size() == 0)
+		cout << "No path\n";
+	for (string str : ans) {
+		cout << str << " -> ";
+	}
+	cout << "ARRIVED\n";
+	cout << "Distance: " << cost << " km\n";
+	cout << "Used time: " << time << " ms\n\n";
 
 
 
