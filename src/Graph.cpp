@@ -42,7 +42,7 @@ int Graph::distance(double lat1, double long1,
 	// Calculate the result
 	ans = ans * R;
 
-	return ans;
+	return int(ans);
 }
 
 
@@ -109,7 +109,7 @@ vector<string> Graph::findShortestPath_BFS(string from, string to)
 
 
 
-std::pair<vector<string>,double> Graph::findShortestPath_Astar(string from, string to)
+vector<string> Graph::findShortestPath_Astar(string from, string to)
 {
 	auto start = std::chrono::high_resolution_clock::now();
 
@@ -142,10 +142,10 @@ std::pair<vector<string>,double> Graph::findShortestPath_Astar(string from, stri
 	std::chrono::duration<double> diff = end - start;
 	double time = diff.count() * 1000.0;
 	cout << "Time Computation (ms): " << time << endl;
-	return std::make_pair(reconstruct_path(ids[from], ids[to], came_from), time);
+	return reconstruct_path(ids[from], ids[to], came_from);
 }
 
-std::pair<vector<string>,double> Graph::findShortestPath_Dijkstra(string from, string to)
+vector<string> Graph::findShortestPath_Dijkstra(string from, string to)
 {
 	auto start = std::chrono::high_resolution_clock::now();
 
@@ -177,5 +177,5 @@ std::pair<vector<string>,double> Graph::findShortestPath_Dijkstra(string from, s
 	std::chrono::duration<double> diff = end - start;
 	double time = diff.count() * 1000.0;
 	cout << "Time Computation (ms): " << time << endl;
-	return std::make_pair(reconstruct_path(ids[from], ids[to], came_from), time);
+	return reconstruct_path(ids[from], ids[to], came_from);
 }
