@@ -12,7 +12,7 @@ int main() {
 	//int mode = 0;
 	//cin >> mode;
 
-	if (mode == 1){}
+	//if (mode == 1){}
 	//TEST 1
 	cout << "Test Case 1: " << endl;
 	Graph object;
