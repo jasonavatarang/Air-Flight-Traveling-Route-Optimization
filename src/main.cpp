@@ -14,6 +14,7 @@ int main() {
 
 	if (mode == 1){}
 	//TEST 1
+	cout << "Test Case 1: " << endl;
 	Graph object;
 	object.airportCoordinates["Orlando"] = std::make_pair(28.54, 81.37);
 	object.airportCoordinates["NYC"] = std::make_pair(35.15, 90.05);
@@ -47,6 +48,7 @@ int main() {
 	cout << endl;
 
 	//TEST 2
+	cout << "Test Case 2: " << endl;
 	Graph object2;
 	object2.airportCoordinates["Orlando"] = std::make_pair(28.54, 81.37);
 	object2.airportCoordinates["NYC"] = std::make_pair(35.15, 90.05);
