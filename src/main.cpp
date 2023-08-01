@@ -1,48 +1,47 @@
-#include "gui.h"
+//#include "gui.h"
 #include "Graph.h"
-
+#include "Data.h"
 #include <iostream>
 
-int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nShowCmd) {
+int main() {
 
+	// Still want GUI?
 	//window();
 
-	AllocConsole();
-	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+	int mode = 0;
+	cin >> mode;
 
-	Graph g;
-	g.insert("A", "B", 10);
-	g.insert("B", "C", 30);
-	g.insert("A", "C", 60);
-	g.insert("C", "D", 5);
-
-	std::pair<vector<string>, double> ans;
-/*
-	// Should be: A C D
-	ans = g.findShortestPath_BFS("A", "D");
-	for (string str : ans) {
-		std::cout << str << " ";
-	}
-	std::cout << std::endl;
-*/
+	if (mode == 1){}
 
 
-	// Should be: A B C D
-	ans = g.findShortestPath_Astar("A", "D");
-	for (string str : ans.first) {
-		std::cout << str << " ";
-	}
-	std::cout << std::endl;
+	//Graph g;
+	//g.insert("A", "B", 10);
+	//g.insert("B", "C", 30);
+	//g.insert("A", "C", 60);
+	//g.insert("C", "D", 5);
 
-	// Should be: A B C D
-	ans = g.findShortestPath_Dijkstra("A", "D");
-	for (string str : ans.first) {
-		std::cout << str << " ";
-	}
-	std::cout << std::endl;
+	//vector<string> ans;
 
-	while (true) {
-		Sleep(10000);
-	}
+	//// Should be: A C D
+	//ans = g.findShortestPath_BFS("A", "D");
+	//for (string str : ans) {
+	//	std::cout << str << " ";
+	//}
+	//std::cout << std::endl;
+
+	//// Should be: A B C D
+	//ans = g.findShortestPath_Astar("A", "D");
+	//for (string str : ans) {
+	//	std::cout << str << " ";
+	//}
+	//std::cout << std::endl;
+
+	//// Should be: A B C D
+	//ans = g.findShortestPath_Dijkstra("A", "D");
+	//for (string str : ans) {
+	//	std::cout << str << " ";
+	//}
+	//std::cout << std::endl;
+
 
 }

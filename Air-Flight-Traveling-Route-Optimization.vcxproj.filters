@@ -45,6 +45,9 @@
     <ClCompile Include="src\Graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Data.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -77,16 +80,13 @@
     <ClInclude Include="src\gui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\algorithm\Dijkstra.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\algorithm\A.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\widgets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
