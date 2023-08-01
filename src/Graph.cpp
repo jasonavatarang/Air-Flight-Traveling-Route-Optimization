@@ -131,7 +131,7 @@ std::pair<vector<string>,double> Graph::findShortestPath_Astar(string from, stri
 			int new_cost = cost_so_far[current] + next.second;
 			if (cost_so_far.find(next.first) == cost_so_far.end() || new_cost < cost_so_far[next.first]) {
 				cost_so_far[next.first] = new_cost;
-				int priority = new_cost ; // heuristic formula
+				int priority = new_cost; // heuristic formula
 				frontier.push(make_pair(next.first, priority));
 				came_from[next.first] = current;
 			}
