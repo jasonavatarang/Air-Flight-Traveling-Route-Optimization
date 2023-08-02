@@ -5,12 +5,13 @@
 
 using namespace std;
 
-int main() {
+int main()
+{
 
 	Data d;
 	d.openRaw("data\\data");
-	d.randomizeFlights(200);
-	d.printFlights();
+	d.randomizeFlights(5000);
+	//d.printFlights();
 
 	Graph g;
 	g.insert(d);

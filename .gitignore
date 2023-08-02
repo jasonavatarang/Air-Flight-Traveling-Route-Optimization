@@ -5,3 +5,4 @@
 /.vs
 /x64/Debug
 *.ini
+/x64/Release
