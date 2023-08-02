@@ -3,7 +3,7 @@
 class Data
 {
 	struct Airport {
-		char name[30]{};
+		std::string name;
 		double latitude = 0;
 		double longitude = 0;
 	};

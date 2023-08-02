@@ -47,12 +47,13 @@ bool Data::openRaw(string filename)
 		string str;
 		getline(fin, str);
 
+		if (str.size() < 4)
+			continue;
+
 		str = str.substr(str.find(',') + 1);
 		str = str.substr(str.find(',') + 2);
 
-		string name = str.substr(0, str.find('"'));
-		for (int i = 0; i < name.size() && i < 30; ++i)
-			airport.name[i] = name[i];
+		airport.name = str.substr(0, str.find('"'));
 
 		str = str.substr(str.find(',') + 1);
 		str = str.substr(str.find(',') + 1);
