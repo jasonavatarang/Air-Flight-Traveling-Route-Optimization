@@ -9,7 +9,7 @@ int main()
 {
 	Data d;
 	d.openRaw("data\\openflights_airports");
-	d.randomizeFlights(50000);
+	d.randomizeFlights(500000);
 
 	Graph g;
 	g.insert(d);
@@ -18,17 +18,19 @@ int main()
 	unsigned int cost;
 	unsigned int time;
 
+	cout << "Displacement:\n";
+	cout << g.Displacement("Madang", "Thule") << endl << endl;
 
-	cout << "BFS:\n";
-	ans = g.BFS("Madang", "Thule", cost, time);
-	if (ans.size() == 0)
-		cout << "No path\n";
-	for (string str : ans) {
-		cout << str << " -> ";
-	}
-	cout << "ARRIVED\n";
-	cout << "Distance: " << cost << " km\n";
-	cout << "Used time: " << time << " microsec\n\n";
+	//cout << "BFS:\n";
+	//ans = g.BFS("Madang", "Thule", cost, time);
+	//if (ans.size() == 0)
+	//	cout << "No path\n";
+	//for (string str : ans) {
+	//	cout << str << " -> ";
+	//}
+	//cout << "ARRIVED\n";
+	//cout << "Distance: " << cost << " km\n";
+	//cout << "Used time: " << time << " microsec\n\n";
 
 
 	cout << "Dijkstra:\n";
