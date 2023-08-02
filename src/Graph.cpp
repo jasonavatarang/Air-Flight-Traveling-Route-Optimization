@@ -20,8 +20,8 @@ unsigned int Graph::GCdistance(double lat1, double lon1, double lat2, double lon
 	lon2 = toRadians(lon2);
 
 	// Haversine Formula
-	double dlat = lat1 - lat2;
-	double dlon = lon1 - lon2;
+	double dlat = abs(lat1 - lat2);
+	double dlon = abs(lon1 - lon2);
 	double ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon / 2), 2);
 	ans = 2 * asin(sqrt(ans));
 
