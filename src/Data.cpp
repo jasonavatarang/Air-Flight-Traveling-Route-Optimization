@@ -10,28 +10,24 @@ using namespace std;
 
 double Data::toRadians(const double& degree)
 {
-	long double one_deg = (M_PI) / 180;
-	return (one_deg * degree);
+	return degree * M_PI / 180.0;
 }
 
-unsigned int Data::GCdistance(double lat1, double long1, double lat2, double long2)
+unsigned int Data::GCdistance(double lat1, double lon1, double lat2, double lon2)
 {
-	// Convert the latitudes and longitudes from degree to radians
 	lat1 = toRadians(lat1);
-	long1 = toRadians(long1);
+	lon1 = toRadians(lon1);
 	lat2 = toRadians(lat2);
-	long2 = toRadians(long2);
+	lon2 = toRadians(lon2);
 
 	// Haversine Formula
-	long double dlong = long2 - long1;
-	long double dlat = lat2 - lat1;
-
-	long double ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2), 2);
-
+	double dlat = abs(lat1 - lat2);
+	double dlon = abs(lon1 - lon2);
+	double ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon / 2), 2);
 	ans = 2 * asin(sqrt(ans));
 
 	// Radius of Earth, R = 6371 km OR 3956 miles
-	long double R = 6371;
+	double R = 6371;
 
 	return ans * R;
 }
@@ -57,6 +53,8 @@ bool Data::openRaw(string filename)
 		str = str.substr(str.find('"') + 1);
 
 		airport.name = str.substr(0, str.find('"'));
+		if (airport.name.size() == 0)
+			continue;
 		str = str.substr(str.find('"') + 2);
 
 		str = str.substr(str.find(',') + 1);

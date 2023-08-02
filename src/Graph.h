@@ -28,6 +28,7 @@ private:
 public:
 	void insert(std::string from, std::string to, unsigned int weight, double lat1, double long1, double lat2, double long2);
 	void insert(Data& data);
+	double ActualDistance(std::string from, std::string to);
 	std::vector<std::string> BFS(std::string from, std::string to, unsigned int& cost);
 	std::vector<std::string> BFS(std::string from, std::string to, unsigned int& cost, unsigned int& time);
 	std::vector<std::string> Astar(std::string from, std::string to, unsigned int& cost);

@@ -9,28 +9,24 @@ using namespace std;
 
 double Graph::toRadians(const double& degree)
 {
-	long double one_deg = (M_PI) / 180;
-	return (one_deg * degree);
+	return degree * M_PI / 180.0;
 }
 
 unsigned int Graph::GCdistance(double lat1, double lon1, double lat2, double lon2)
 {
-	// Convert the latitudes and longitudes from degree to radians
 	lat1 = toRadians(lat1);
 	lon1 = toRadians(lon1);
 	lat2 = toRadians(lat2);
 	lon2 = toRadians(lon2);
 
 	// Haversine Formula
-	long double dlong = lon2 - lon1;
-	long double dlat = lat2 - lat1;
-
-	long double ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlong / 2), 2);
-
+	double dlat = abs(lat1 - lat2);
+	double dlon = abs(lon1 - lon2);
+	double ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon / 2), 2);
 	ans = 2 * asin(sqrt(ans));
 
 	// Radius of Earth, R = 6371 km OR 3956 miles
-	long double R = 6371;
+	double R = 6371;
 
 	return ans * R;
 }
@@ -86,6 +82,11 @@ void Graph::insert(Data& data)
 			data.flights[i].distance,
 			data.airports[data.flights[i].from_id].latitude, data.airports[data.flights[i].from_id].longitude,
 			data.airports[data.flights[i].to_id].latitude, data.airports[data.flights[i].to_id].longitude);
+}
+
+double Graph::ActualDistance(std::string from, std::string to)
+{
+	return GCdistance(coordinates[ids[from]].first, coordinates[ids[from]].second, coordinates[ids[to]].first, coordinates[ids[to]].second);
 }
 
 // Breadth First Search
