@@ -164,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="data\data" />
+    <None Include="data\openflights_airports" />
     <None Include="imgui\misc\debuggers\imgui.natstepfilter" />
   </ItemGroup>
   <ItemGroup>

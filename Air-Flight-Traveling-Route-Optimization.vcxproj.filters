@@ -93,6 +93,7 @@
   <ItemGroup>
     <None Include="imgui\misc\debuggers\imgui.natstepfilter" />
     <None Include="data\data" />
+    <None Include="data\openflights_airports" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="imgui\misc\debuggers\imgui.natvis" />
