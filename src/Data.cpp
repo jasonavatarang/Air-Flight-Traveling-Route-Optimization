@@ -42,27 +42,24 @@ bool Data::openRaw(string filename)
 		int count = 0;
 		Airport airport;
 		string str;
+		string delim = "\",";
 		getline(fin, str);
 
 		if (str.size() < 4)
 			continue;
 
 		str = str.substr(str.find(',') + 2);
-		while (str[0] != ',')
-			str = str.substr(str.find('"') + 1);
-		str = str.substr(str.find('"') + 1);
 
-		airport.name = str.substr(0, str.find('"'));
-		if (airport.name.size() == 0)
-			continue;
-		str = str.substr(str.find('"') + 2);
+		airport.name = str.substr(0, str.find(delim));
 
+		str = str.substr(str.find(delim) + 2);
+		str = str.substr(str.find(delim) + 2);
 		str = str.substr(str.find(',') + 1);
 		str = str.substr(str.find(',') + 1);
 		str = str.substr(str.find(',') + 1);
 
 		airport.latitude = stod(str.substr(0, str.find(',')));
-
+		
 		str = str.substr(str.find(',') + 1);
 
 		airport.longitude = stod(str.substr(0, str.find(',')));
