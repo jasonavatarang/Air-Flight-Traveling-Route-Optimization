@@ -84,7 +84,7 @@ void Graph::insert(Data& data)
 			data.airports[data.flights[i].to_id].latitude, data.airports[data.flights[i].to_id].longitude);
 }
 
-double Graph::ActualDistance(std::string from, std::string to)
+double Graph::Displacement(std::string from, std::string to)
 {
 	return GCdistance(coordinates[ids[from]].first, coordinates[ids[from]].second, coordinates[ids[to]].first, coordinates[ids[to]].second);
 }
