@@ -10,7 +10,7 @@ int main()
 
 	Data d;
 	d.openRaw("data\\data");
-	d.randomizeFlights(5000);
+	d.randomizeFlights(8000);
 	//d.printFlights();
 
 	Graph g;

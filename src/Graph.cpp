@@ -160,10 +160,10 @@ vector<string> Graph::Astar(string from, string to, unsigned int& cost)
 			if (new_cost < cost_so_far[next.first]) {
 				came_from[next.first] = current;
 				cost_so_far[next.first] = new_cost;
+				// Heuristic formula: cost_so_far + distance_to_destination
+				if (!visited[next.first])
+					pq.emplace(cost_so_far[next.first] + GCdistance(coordinates[next.first].first, coordinates[next.first].second, dest_coordinates.first, dest_coordinates.second), next.first);
 			}
-			// Heuristic formula: cost_so_far + distance_to_destination
-			if (!visited[next.first])
-				pq.emplace(cost_so_far[next.first] + GCdistance(coordinates[next.first].first, coordinates[next.first].second, dest_coordinates.first, dest_coordinates.second), next.first);
 		}
 	}
 	cost = cost_so_far[ids[to]];
@@ -209,9 +209,9 @@ vector<string> Graph::Dijkstra(string from, string to, unsigned int& cost)
 			if (new_cost < cost_so_far[next.first]) {
 				came_from[next.first] = current;
 				cost_so_far[next.first] = new_cost;
+				if (!visited[next.first])
+					pq.emplace(cost_so_far[next.first], next.first);
 			}
-			if (!visited[next.first])
-				pq.emplace(cost_so_far[next.first], next.first);
 		}
 	}
 	cost = cost_so_far[ids[to]];
