@@ -10,7 +10,6 @@ int main()
 	Data d;
 	d.openRaw("data\\openflights_airports");
 	d.randomizeFlights(50000);
-	//d.printFlights();
 
 	Graph g;
 	g.insert(d);
@@ -29,7 +28,7 @@ int main()
 	}
 	cout << "ARRIVED\n";
 	cout << "Distance: " << cost << " km\n";
-	cout << "Used time: " << time << " ms\n\n";
+	cout << "Used time: " << time << " microsec\n\n";
 
 
 	cout << "Dijkstra:\n";
@@ -41,7 +40,7 @@ int main()
 	}
 	cout << "ARRIVED\n";
 	cout << "Distance: " << cost << " km\n";
-	cout << "Used time: " << time << " ms\n\n";
+	cout << "Used time: " << time << " microsec\n\n";
 
 
 	cout << "Astar:\n";
@@ -53,7 +52,7 @@ int main()
 	}
 	cout << "ARRIVED\n";
 	cout << "Distance: " << cost << " km\n";
-	cout << "Used time: " << time << " ms\n\n";
+	cout << "Used time: " << time << " microsec\n\n";
 
 
 
