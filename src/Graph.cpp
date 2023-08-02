@@ -20,8 +20,8 @@ unsigned int Graph::GCdistance(double lat1, double lon1, double lat2, double lon
 	lon2 = toRadians(lon2);
 
 	// Haversine Formula
-	double dlat = abs(lat1 - lat2);
-	double dlon = abs(lon1 - lon2);
+	double dlat = lat1 - lat2;
+	double dlon = lon1 - lon2;
 	double ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon / 2), 2);
 	ans = 2 * asin(sqrt(ans));
 
@@ -84,7 +84,7 @@ void Graph::insert(Data& data)
 			data.airports[data.flights[i].to_id].latitude, data.airports[data.flights[i].to_id].longitude);
 }
 
-double Graph::ActualDistance(std::string from, std::string to)
+double Graph::Displacement(std::string from, std::string to)
 {
 	return GCdistance(coordinates[ids[from]].first, coordinates[ids[from]].second, coordinates[ids[to]].first, coordinates[ids[to]].second);
 }
