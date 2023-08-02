@@ -43,6 +43,7 @@ bool Data::openRaw(string filename)
 		return false;
 
 	while (fin.good()) {
+		int count = 0;
 		Airport airport;
 		string str;
 		getline(fin, str);
@@ -50,12 +51,14 @@ bool Data::openRaw(string filename)
 		if (str.size() < 4)
 			continue;
 
-		str = str.substr(str.find(',') + 1);
 		str = str.substr(str.find(',') + 2);
+		while (str[0] != ',')
+			str = str.substr(str.find('"') + 1);
+		str = str.substr(str.find('"') + 1);
 
 		airport.name = str.substr(0, str.find('"'));
+		str = str.substr(str.find('"') + 2);
 
-		str = str.substr(str.find(',') + 1);
 		str = str.substr(str.find(',') + 1);
 		str = str.substr(str.find(',') + 1);
 		str = str.substr(str.find(',') + 1);

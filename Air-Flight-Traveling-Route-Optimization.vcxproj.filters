@@ -92,7 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\misc\debuggers\imgui.natstepfilter" />
-    <None Include="data\data" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="imgui\misc\debuggers\imgui.natvis" />
