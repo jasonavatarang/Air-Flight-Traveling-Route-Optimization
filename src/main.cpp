@@ -18,8 +18,10 @@ int main()
 	unsigned int cost;
 	unsigned int time;
 
+
 	cout << "Displacement:\n";
-	cout << g.Displacement("Madang", "Thule") << endl << endl;
+	cout << g.Displacement("Buffalo Niagara International Airport", "John F Kennedy International Airport") << endl << endl;
+
 
 	//cout << "BFS:\n";
 	//ans = g.BFS("Madang", "Thule", cost, time);
@@ -34,7 +36,7 @@ int main()
 
 
 	cout << "Dijkstra:\n";
-	ans = g.Dijkstra("Madang", "Thule", cost, time);
+	ans = g.Dijkstra("Buffalo Niagara International Airport", "John F Kennedy International Airport", cost, time);
 	if (ans.size() == 0)
 		cout << "No path\n";
 	for (string str : ans) {
@@ -46,7 +48,7 @@ int main()
 
 
 	cout << "Astar:\n";
-	ans = g.Astar("Madang", "Thule", cost, time);
+	ans = g.Astar("Buffalo Niagara International Airport", "John F Kennedy International Airport", cost, time);
 	if (ans.size() == 0)
 		cout << "No path\n";
 	for (string str : ans) {
