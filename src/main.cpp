@@ -16,8 +16,7 @@ int main()
 	g.insert(d);
 
 	vector <string> ans;
-	unsigned int cost;
-	unsigned int time;
+	unsigned int cost, time;
 
 	//string from = "Yaoqiang Airport";
 	//string to = "John F Kennedy International Airport";
