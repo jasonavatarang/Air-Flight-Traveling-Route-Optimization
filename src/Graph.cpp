@@ -1,6 +1,7 @@
 #include <queue>
 #include <iostream>
 #include <chrono>
+#include <fstream>
 #include <corecrt_math_defines.h>
 
 #include "Graph.h"
@@ -84,13 +85,34 @@ void Graph::insert(Data& data)
 			data.airports[data.flights[i].to_id].latitude, data.airports[data.flights[i].to_id].longitude);
 }
 
+bool Graph::exportGraph(std::string filename)
+{
+	ofstream fout(filename, ios::binary);
+	if (!fout.is_open())
+		return false;
+
+	fout.write((char*)&size, sizeof(size));
+	for (string& name : names) {
+		// write size
+		short n_size = name.size() + 1;
+		fout.write((char*)&n_size, sizeof(n_size));
+		fout.write(name.c)
+	}
+}
+
+bool Graph::importGraph(std::string filename)
+{
+	return false;
+}
+
+// Actual distance between two places
 double Graph::Displacement(std::string from, std::string to)
 {
 	return GCdistance(coordinates[ids[from]].first, coordinates[ids[from]].second, coordinates[ids[to]].first, coordinates[ids[to]].second);
 }
 
 // Breadth First Search
-vector<string> Graph::BFS(string from, string to, unsigned int& cost)
+vector<string> Graph::BFS(string& from, string& to, unsigned int& cost)
 {
 	queue<int> q;
 	vector<int> came_from(size, -1);
@@ -120,7 +142,7 @@ vector<string> Graph::BFS(string from, string to, unsigned int& cost)
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
 
-vector<string> Graph::BFS(string from, string to, unsigned int& cost, unsigned int& time)
+vector<string> Graph::BFS(string& from, string& to, unsigned int& cost, unsigned int& time)
 {
 	auto start = chrono::steady_clock::now();
 
@@ -134,7 +156,7 @@ vector<string> Graph::BFS(string from, string to, unsigned int& cost, unsigned i
 }
 
 // A* Search
-vector<string> Graph::Astar(string from, string to, unsigned int& cost)
+vector<string> Graph::Astar(string& from, string& to, unsigned int& cost)
 {
 	// pq<weight, node_id> ordered by the first element
 	priority_queue<pair<unsigned int, int>, vector<pair<unsigned int, int>>, greater<pair<unsigned int, int>>> pq;
@@ -171,7 +193,7 @@ vector<string> Graph::Astar(string from, string to, unsigned int& cost)
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
 
-vector<string> Graph::Astar(string from, string to, unsigned int& cost, unsigned int& time)
+vector<string> Graph::Astar(string& from, string& to, unsigned int& cost, unsigned int& time)
 {
 	auto start = chrono::steady_clock::now();
 
@@ -185,7 +207,7 @@ vector<string> Graph::Astar(string from, string to, unsigned int& cost, unsigned
 }
 
 // Dijkstra Search
-vector<string> Graph::Dijkstra(string from, string to, unsigned int& cost)
+vector<string> Graph::Dijkstra(string& from, string& to, unsigned int& cost)
 {
 	// pq<weight, node_id> ordered by the first element
 	priority_queue<pair<unsigned int, int>, vector<pair<unsigned int, int>>, greater<pair<unsigned int, int>>> pq;
@@ -219,7 +241,7 @@ vector<string> Graph::Dijkstra(string from, string to, unsigned int& cost)
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
 
-vector<string> Graph::Dijkstra(string from, string to, unsigned int& cost, unsigned int& time)
+vector<string> Graph::Dijkstra(string& from, string& to, unsigned int& cost, unsigned int& time)
 {
 	auto start = chrono::steady_clock::now();
 
