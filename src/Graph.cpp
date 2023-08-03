@@ -1,8 +1,9 @@
 #include <queue>
 #include <iostream>
 #include <chrono>
+#include <fstream>
 #include <corecrt_math_defines.h>
-
+#include <string>
 #include "Graph.h"
 
 using namespace std;
@@ -12,6 +13,7 @@ double Graph::toRadians(const double& degree)
 {
 	return degree * M_PI / 180.0;
 }
+
 
 unsigned int Graph::GCdistance(double lat1, double lon1, double lat2, double lon2)
 {
@@ -32,31 +34,26 @@ unsigned int Graph::GCdistance(double lat1, double lon1, double lat2, double lon
 	return ans * R;
 }
 
-bool Graph::search(std::string airport) {
 
-	if (ids.find(airport) != ids.end()) {
-		return true;
-	}
-	else {
+bool Graph::search(string airport) {
+	if (ids.find(airport) == ids.end())
 		return false;
-	}
+	return true;
 }
 
-string Graph::getValidAirportName(std::string prompt){
+
+string Graph::getValidAirportName(string prompt) {
 	string airport;
 	while (true) {
 		cout << prompt << endl;
 		getline(cin, airport);
 
-		if (!search(airport)) {
-			cout << "Please enter a valid airport name (e.g., John F Kennedy International Airport)." << endl;
-		}
-		else {
+		if (search(airport))
 			return airport;
-		}
+		else
+			cout << "Please enter a valid airport name (e.g., John F Kennedy International Airport)." << endl;
 	}
 }
-
 
 // Initialize one single node
 void Graph::add(string& element, double& lat, double& lon)
@@ -111,13 +108,38 @@ void Graph::insert(Data& data)
 			data.airports[data.flights[i].to_id].latitude, data.airports[data.flights[i].to_id].longitude);
 }
 
-double Graph::Displacement(std::string from, std::string to)
+bool Graph::exportGraph(std::string filename)
+{
+	ofstream fout(filename, ios::binary);
+	if (!fout.is_open())
+		return false;
+
+	// write size
+	fout.write((char*)&size, sizeof(size));
+
+	// write names
+	for (string& name : names) {
+		short n_size = name.size() + 1;
+		fout.write((char*)&n_size, sizeof(n_size));
+		fout.write(name.c_str(), n_size);
+	}
+	// 
+
+}
+
+bool Graph::importGraph(std::string filename)
+{
+	return false;
+}
+
+// Actual distance between two places
+double Graph::Displacement(std::string& from, std::string& to)
 {
 	return GCdistance(coordinates[ids[from]].first, coordinates[ids[from]].second, coordinates[ids[to]].first, coordinates[ids[to]].second);
 }
 
 // Breadth First Search
-vector<string> Graph::BFS(string from, string to, unsigned int& cost)
+vector<string> Graph::BFS(string& from, string& to, unsigned int& cost)
 {
 	queue<int> q;
 	vector<int> came_from(size, -1);
@@ -147,7 +169,7 @@ vector<string> Graph::BFS(string from, string to, unsigned int& cost)
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
 
-vector<string> Graph::BFS(string from, string to, unsigned int& cost, unsigned int& time)
+vector<string> Graph::BFS(string& from, string& to, unsigned int& cost, unsigned int& time)
 {
 	auto start = chrono::steady_clock::now();
 
@@ -161,7 +183,7 @@ vector<string> Graph::BFS(string from, string to, unsigned int& cost, unsigned i
 }
 
 // A* Search
-vector<string> Graph::Astar(string from, string to, unsigned int& cost)
+vector<string> Graph::Astar(string& from, string& to, unsigned int& cost)
 {
 	// pq<weight, node_id> ordered by the first element
 	priority_queue<pair<unsigned int, int>, vector<pair<unsigned int, int>>, greater<pair<unsigned int, int>>> pq;
@@ -198,7 +220,7 @@ vector<string> Graph::Astar(string from, string to, unsigned int& cost)
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
 
-vector<string> Graph::Astar(string from, string to, unsigned int& cost, unsigned int& time)
+vector<string> Graph::Astar(string& from, string& to, unsigned int& cost, unsigned int& time)
 {
 	auto start = chrono::steady_clock::now();
 
@@ -212,7 +234,7 @@ vector<string> Graph::Astar(string from, string to, unsigned int& cost, unsigned
 }
 
 // Dijkstra Search
-vector<string> Graph::Dijkstra(string from, string to, unsigned int& cost)
+vector<string> Graph::Dijkstra(string& from, string& to, unsigned int& cost)
 {
 	// pq<weight, node_id> ordered by the first element
 	priority_queue<pair<unsigned int, int>, vector<pair<unsigned int, int>>, greater<pair<unsigned int, int>>> pq;
@@ -246,7 +268,7 @@ vector<string> Graph::Dijkstra(string from, string to, unsigned int& cost)
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
 
-vector<string> Graph::Dijkstra(string from, string to, unsigned int& cost, unsigned int& time)
+vector<string> Graph::Dijkstra(string& from, string& to, unsigned int& cost, unsigned int& time)
 {
 	auto start = chrono::steady_clock::now();
 
