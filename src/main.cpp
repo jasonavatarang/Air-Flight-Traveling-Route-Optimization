@@ -1,18 +1,28 @@
 #include <iostream>
+#include "SFML/Graphics.hpp"
+#pragma comment(lib, "SFML/lib/sfml-graphics.lib")
+#pragma comment(lib, "SFML/lib/sfml-window.lib")
+#pragma comment(lib, "SFML/lib/sfml-system.lib")
 
-//#include "gui.h"
 #include "Graph.h"
+
+=======
 #include "AirportNodes.h"
 #include <string>
+
 
 using namespace std;
 
 int main()
 {
 
+
+
+=======
 	int width = 800;
 	int height = 600;
 	int number_nodes;
+
 	Data d;
 	d.openRaw("data\\openflights_airports");
 	d.randomizeFlights(500000);
@@ -150,6 +160,8 @@ int main()
 
 
 
+}
+=======
 
 
 	// Still want GUI?
@@ -160,3 +172,4 @@ int main()
 	
 
 }*/
+
