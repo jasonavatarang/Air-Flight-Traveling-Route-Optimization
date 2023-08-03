@@ -7,6 +7,7 @@
 
 using namespace std;
 
+
 double Graph::toRadians(const double& degree)
 {
 	return degree * M_PI / 180.0;
@@ -30,6 +31,32 @@ unsigned int Graph::GCdistance(double lat1, double lon1, double lat2, double lon
 
 	return ans * R;
 }
+
+bool Graph::search(std::string airport) {
+
+	if (ids.find(airport) != ids.end()) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+string Graph::getValidAirportName(std::string prompt){
+	string airport;
+	while (true) {
+		cout << prompt << endl;
+		getline(cin, airport);
+
+		if (!search(airport)) {
+			cout << "Please enter a valid airport name (e.g., John F Kennedy International Airport)." << endl;
+		}
+		else {
+			return airport;
+		}
+	}
+}
+
 
 // Initialize one single node
 void Graph::add(string& element, double& lat, double& lon)

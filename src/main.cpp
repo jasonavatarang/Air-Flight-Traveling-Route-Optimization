@@ -2,6 +2,7 @@
 
 //#include "gui.h"
 #include "Graph.h"
+#include <string>
 
 using namespace std;
 
@@ -18,9 +19,12 @@ int main()
 	unsigned int cost;
 	unsigned int time;
 
-	string from = "Yaoqiang Airport";
-	string to = "John F Kennedy International Airport";
-
+	//string from = "Yaoqiang Airport";
+	//string to = "John F Kennedy International Airport";
+	string from, to;
+	from = g.getValidAirportName("Please enter your initial airport location (from): ");
+	to = g.getValidAirportName("Please enter your airport destination (to): ");
+	cout << endl;
 	cout << "Displacement: " << from << " -> " << to << "\n";
 	cout << g.Displacement(from, to) << " km\n\n";
 
