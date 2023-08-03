@@ -3,22 +3,15 @@
 #pragma comment(lib, "SFML/lib/sfml-graphics.lib")
 #pragma comment(lib, "SFML/lib/sfml-window.lib")
 #pragma comment(lib, "SFML/lib/sfml-system.lib")
-
 #include "Graph.h"
-
-=======
 #include "AirportNodes.h"
 #include <string>
-
 
 using namespace std;
 
 int main()
 {
 
-
-
-=======
 	int width = 800;
 	int height = 600;
 	int number_nodes;
@@ -155,20 +148,6 @@ int main()
 	cout << "ARRIVED\n";
 	cout << "Distance: " << cost << " km\n";
 	cout << "Used time: " << time << " microsec\n\n";
-
-
-
-
-
-}
-=======
-
-
-	// Still want GUI?
-	//window();
-
-	//int mode = 0;
-	//cin >> mode;
 	
 
 }*/
