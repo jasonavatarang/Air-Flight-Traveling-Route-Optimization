@@ -77,13 +77,7 @@
     <ClInclude Include="imgui\backends\imgui_impl_dx9.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Graph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\widgets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Data.h">

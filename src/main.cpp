@@ -1,13 +1,17 @@
 #include <iostream>
+#include "SFML/Graphics.hpp"
+#pragma comment(lib, "SFML/lib/sfml-graphics.lib")
+#pragma comment(lib, "SFML/lib/sfml-window.lib")
+#pragma comment(lib, "SFML/lib/sfml-system.lib")
 
-//#include "gui.h"
 #include "Graph.h"
-#include <string>
 
 using namespace std;
 
 int main()
 {
+
+
 	Data d;
 	d.openRaw("data\\openflights_airports");
 	d.randomizeFlights(500000);
@@ -66,13 +70,5 @@ int main()
 
 
 
-
-
-
-	// Still want GUI?
-	//window();
-
-	//int mode = 0;
-	//cin >> mode;
 
 }
