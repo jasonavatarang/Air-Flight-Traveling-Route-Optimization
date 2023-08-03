@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include <unordered_map>
-#include <string>
 #include "Data.h"
 
 class Graph
@@ -26,16 +25,22 @@ private:
 	std::vector<std::string> reconstruct_path(int start, int to, std::vector<int>& came_from);
 
 public:
-
+	// Modifiers
 	void insert(std::string from, std::string to, unsigned int weight, double lat1, double long1, double lat2, double long2);
 	void insert(Data& data);
-	double Displacement(std::string from, std::string to);
+
+	// Export & Import
+	bool exportGraph(std::string filename);
+	bool importGraph(std::string filename);	
+
+	// Path algms
 	bool search(std::string airport);
 	std::string getValidAirportName(std::string prompt);
-	std::vector<std::string> BFS(std::string from, std::string to, unsigned int& cost);
-	std::vector<std::string> BFS(std::string from, std::string to, unsigned int& cost, unsigned int& time);
-	std::vector<std::string> Astar(std::string from, std::string to, unsigned int& cost);
-	std::vector<std::string> Astar(std::string from, std::string to, unsigned int& cost, unsigned int& time);
-	std::vector<std::string> Dijkstra(std::string from, std::string to, unsigned int& cost);
-	std::vector<std::string> Dijkstra(std::string from, std::string to, unsigned int& cost, unsigned int& time);
+	double Displacement(std::string& from, std::string& to);
+	std::vector<std::string> BFS(std::string& from, std::string& to, unsigned int& cost);
+	std::vector<std::string> BFS(std::string& from, std::string& to, unsigned int& cost, unsigned int& time);
+	std::vector<std::string> Astar(std::string& from, std::string& to, unsigned int& cost);
+	std::vector<std::string> Astar(std::string& from, std::string& to, unsigned int& cost, unsigned int& time);
+	std::vector<std::string> Dijkstra(std::string& from, std::string& to, unsigned int& cost);
+	std::vector<std::string> Dijkstra(std::string& from, std::string& to, unsigned int& cost, unsigned int& time);
 };
