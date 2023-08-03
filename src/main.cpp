@@ -6,24 +6,21 @@
 
 #include "Graph.h"
 
+#include "AirportNodes.h"
+#include <string>
+
+
 using namespace std;
 
 int main()
 {
+	int width = 800;
+	int height = 600;
+	int number_nodes;
 
-	// Build our own dataset (Run only once)
-	
-	//Data d;
-	//d.openRaw("data/openflights_airports");
-	//d.randomizeFlights(500000);
-
-	//Graph g;
-	//g.insert(d);
-
-	//g.exportGraph("data/ourDataSet");
-
-
-	// Read from our own dataset
+	Data d;
+	d.openRaw("data\\openflights_airports");
+	d.randomizeFlights(500000);
 
 	Graph g;
 	g.importGraph("data/ourDataSet");
