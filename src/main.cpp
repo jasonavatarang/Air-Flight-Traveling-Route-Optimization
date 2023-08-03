@@ -11,24 +11,35 @@ using namespace std;
 int main()
 {
 
+	// Build our own dataset (Run only once)
+	
+	//Data d;
+	//d.openRaw("data/openflights_airports");
+	//d.randomizeFlights(500000);
 
-	Data d;
-	d.openRaw("data\\openflights_airports");
-	d.randomizeFlights(500000);
+	//Graph g;
+	//g.insert(d);
+
+	//g.exportGraph("data/ourDataSet");
+
+
+	// Read from our own dataset
 
 	Graph g;
-	g.insert(d);
+	g.importGraph("data/ourDataSet");
+
 
 	vector <string> ans;
 	unsigned int cost, time;
 
-	//string from = "Yaoqiang Airport";
-	//string to = "John F Kennedy International Airport";
-	string from, to;
-	from = g.getValidAirportName("Please enter your initial airport location (from): ");
-	to = g.getValidAirportName("Please enter your airport destination (to): ");
-	cout << endl;
-	cout << "Displacement: " << from << " -> " << to << "\n";
+	string from = "Yaoqiang Airport";
+	string to = "John F Kennedy International Airport";
+
+	//string from, to;
+	//from = g.getValidAirportName("Please enter your initial airport location (from): ");
+	//to = g.getValidAirportName("Please enter your airport destination (to): ");
+
+	cout << "\nDisplacement: " << from << " -> " << to << endl;
 	cout << g.Displacement(from, to) << " km\n\n";
 
 

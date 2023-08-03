@@ -108,6 +108,7 @@ void Graph::insert(Data& data)
 			data.airports[data.flights[i].to_id].latitude, data.airports[data.flights[i].to_id].longitude);
 }
 
+// Export graph itself
 bool Graph::exportGraph(std::string filename)
 {
 	ofstream fout(filename, ios::binary);
@@ -119,17 +120,68 @@ bool Graph::exportGraph(std::string filename)
 
 	// write names
 	for (string& name : names) {
-		short n_size = name.size() + 1;
+		unsigned short n_size = name.size() + 1;
 		fout.write((char*)&n_size, sizeof(n_size));
 		fout.write(name.c_str(), n_size);
 	}
-	// 
+	// write adj_list
+	for (vector<pair<int, unsigned int>>& edges : adj_list) {
+		unsigned short v_size = edges.size();
+		fout.write((char*)&v_size, sizeof(v_size));
+		for (pair<int, unsigned int>& e : edges)
+			fout.write((char*)&e, sizeof(e));
+	}
+	// write coordinates
+	for (pair<double, double>& coord : coordinates)
+		fout.write((char*)&coord, sizeof(coord));
 
+	fout.close();
+	return true;
 }
 
+// Import graph itself
 bool Graph::importGraph(std::string filename)
 {
-	return false;
+	ifstream fin(filename, ios::binary);
+	if (!fin.is_open())
+		return false;
+
+	// read size
+	fin.read((char*)&size, sizeof(size));
+
+	// read names
+	for (int i = 0; i < size;++i) {
+		unsigned short n_size;
+		fin.read((char*)&n_size, sizeof(n_size));
+		char* name = new char[n_size];
+		fin.read(name, n_size);
+		names.emplace_back(name);
+		delete[] name;
+	}
+	// write adj_list
+	for (int i = 0; i < size; ++i) {
+		adj_list.emplace_back();
+
+		unsigned short v_size;
+		fin.read((char*)&v_size, sizeof(v_size));
+		for (int j = 0; j < v_size; ++j) {
+			pair<int, unsigned int> e;
+			fin.read((char*)&e, sizeof(e));
+			adj_list[i].push_back(e);
+		}
+	}
+	// write coordinates
+	for (int i = 0; i < size; ++i) {
+		pair<double, double> coord;
+		fin.read((char*)&coord, sizeof(coord));
+		coordinates.push_back(coord);
+	}
+	// build ids
+	for (int i = 0; i < size; ++i)
+		ids[names[i]] = i;
+
+	fin.close();
+	return true;
 }
 
 // Actual distance between two places
