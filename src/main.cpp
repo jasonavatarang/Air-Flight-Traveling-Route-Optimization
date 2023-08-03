@@ -16,19 +16,16 @@ int main()
 	int height = 600;
 	int number_nodes;
 
-	Data d;
-	d.openRaw("data\\openflights_airports");
-	d.randomizeFlights(500000);
+	Graph g;
+	g.importGraph("data/ourDataSet");
 
-	//vector <string> ans;
-	unsigned int cost;
-	unsigned int time;
+	unsigned int cost, time;
 
-	//string from = "Yaoqiang Airport";
-	//string to = "John F Kennedy International Airport";
-	string from, to;
-	from = g.getValidAirportName("Please enter your initial airport location (from): ");
-	to = g.getValidAirportName("Please enter your airport destination (to): ");
+	string from = "Yaoqiang Airport";
+	string to = "John F Kennedy International Airport";
+	//string from, to;
+	//from = g.getValidAirportName("Please enter your initial airport location (from): ");
+	//to = g.getValidAirportName("Please enter your airport destination (to): ");
 	cout << endl;
 	cout << "Displacement: " << from << " -> " << to << "\n";
 	cout << g.Displacement(from, to) << " km\n\n";
