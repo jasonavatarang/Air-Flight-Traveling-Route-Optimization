@@ -29,7 +29,7 @@ void PromptWindow(Graph& graph)
 	from_text.setFillColor(sf::Color::Black);
 	from_text.setPosition(50.f, 50.f);
 	from_text.setString("From Airport");
-	
+
 	//"from" textbox
 	sf::RectangleShape from_textbox(sf::Vector2f(200.f, 30.f));
 	from_textbox.setFillColor(sf::Color::White);
@@ -58,7 +58,7 @@ void PromptWindow(Graph& graph)
 
 	RectangleShape button(sf::Vector2f(200.f, 50.f));
 	button.setFillColor(sf::Color::Blue);
-	button.setPosition(50.f,250.f);	// Set up "submit" button
+	button.setPosition(50.f, 250.f);	// Set up "submit" button
 
 	// Set up "submit" label
 	Text submit_label;
@@ -173,8 +173,16 @@ void PromptWindow(Graph& graph)
 
 void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_path)
 {
-	std::pair<int, int> window_size(1000, 800); // window_size<width, height>
+	std::pair<int, int> window_size(1600, 800); // window_size<width, height>
 	RenderWindow window(VideoMode(window_size.first, window_size.second), "graph", Style::Titlebar);
+
+	// Background Earth
+	Texture bgImage;
+	Sprite background;
+	if (bgImage.loadFromFile("data/Earth.png")) {
+		background.setTexture(bgImage);
+		background.setScale(window_size.first / background.getLocalBounds().width, window_size.second / background.getLocalBounds().height);
+	}
 
 	// Widgets
 	std::vector<CircleShape> airports;
@@ -187,6 +195,10 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 		while (window.pollEvent(event)) {}
 
 		if (new_path) {
+			// Clear the vectors
+			airports.clear();
+			paths.clear();
+
 			unsigned int cost, time;
 			Color color;
 			std::vector<std::string> path;
@@ -199,36 +211,45 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 				stops.insert(airport);
 				bfs_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
 			}
+			std::cout << cost << std::endl;
 			path = graph.Dijkstra(from, to, cost, time);
 			for (std::string& airport : path) {
 				stops.insert(airport);
 				dijk_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
 			}
+			std::cout << cost << std::endl;
 			path = graph.Astar(from, to, cost, time);
 			for (std::string& airport : path) {
 				stops.insert(airport);
 				astr_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
 			}
+			std::cout << cost << std::endl;
 
 			// Create objects representing airports (also their names?)
 			for (auto iter = stops.begin(); iter != stops.end(); ++iter) {
 				airportDisplay(coord2pixel(graph.getCoordinates(*iter), window_size), airports);
 			}
 
+			// Draw BFS path
+			color = Color::Green;
+			for (int i = 1; i < bfs_pixel.size(); ++i)
+				pathDisplay(bfs_pixel[i - 1], bfs_pixel[i], color, 6, paths);
+
 			// Draw Dijkstra path
 			color = Color::Red;
 			for (int i = 1; i < dijk_pixel.size(); ++i)
-				pathDisplay(dijk_pixel[i - 1], dijk_pixel[i], color, paths);
+				pathDisplay(dijk_pixel[i - 1], dijk_pixel[i], color, 4, paths);
 
 			// Draw Astar path
 			color = Color::Blue;
 			for (int i = 1; i < astr_pixel.size(); ++i)
-				pathDisplay(astr_pixel[i - 1], astr_pixel[i], color, paths);
+				pathDisplay(astr_pixel[i - 1], astr_pixel[i], color, 2, paths);
 
 			new_path = false;
 		}
 
-		window.clear(Color::White);
+		window.clear();
+		window.draw(background);
 
 		// Draw widgets
 		for (CircleShape& airport : airports)
@@ -257,13 +278,12 @@ void airportDisplay(std::pair<int, int> airport, std::vector<sf::CircleShape>& a
 }
 
 
-void pathDisplay(std::pair<int, int>& from, std::pair<int, int>& to, Color& color, std::vector<RectangleShape>& paths)
+void pathDisplay(std::pair<int, int>& from, std::pair<int, int>& to, Color& color, int thickness, std::vector<RectangleShape>& paths)
 {
-	int thickness = 2;
 	int index = paths.size();
 	paths.emplace_back(Vector2f(sqrt(pow(from.first - to.first, 2) + pow(from.second - to.second, 2)), thickness));
 	paths[index].setFillColor(color);
-	paths[index].setOrigin(Vector2f(0, thickness / 2));
-	paths[index].setPosition(Vector2f(from.first, from.second));
+	paths[index].setOrigin(0, thickness / 2);
+	paths[index].setPosition(from.first, from.second);
 	paths[index].setRotation(-atan2(from.second - to.second, to.first - from.first) * 180 / M_PI);
 }
