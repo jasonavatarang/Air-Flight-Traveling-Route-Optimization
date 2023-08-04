@@ -39,7 +39,7 @@ public:
 	std::pair<double, double> getCoordinates(std::string airport);
 
 	// Path algms
-	double Displacement(std::string& from, std::string& to);
+	unsigned int Displacement(std::string& from, std::string& to);
 	std::vector<std::string> BFS(std::string& from, std::string& to, unsigned int& cost);
 	std::vector<std::string> BFS(std::string& from, std::string& to, unsigned int& cost, unsigned int& time);
 	std::vector<std::string> Astar(std::string& from, std::string& to, unsigned int& cost);

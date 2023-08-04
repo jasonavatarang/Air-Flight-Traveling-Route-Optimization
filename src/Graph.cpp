@@ -174,7 +174,7 @@ bool Graph::importGraph(std::string filename)
 }
 
 // Actual distance between two places
-double Graph::Displacement(std::string& from, std::string& to)
+unsigned int Graph::Displacement(std::string& from, std::string& to)
 {
 	return GCdistance(coordinates[ids[from]].first, coordinates[ids[from]].second, coordinates[ids[to]].first, coordinates[ids[to]].second);
 }
