@@ -137,13 +137,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\AirportNodes.cpp" />
+    <ClCompile Include="src\Display.cpp" />
     <ClCompile Include="src\Data.cpp" />
     <ClCompile Include="src\Graph.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\AirportNodes.h" />
+    <ClInclude Include="src\Display.h" />
     <ClInclude Include="src\Data.h" />
     <ClInclude Include="src\Graph.h" />
   </ItemGroup>
