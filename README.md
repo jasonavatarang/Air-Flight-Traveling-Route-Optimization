@@ -7,7 +7,7 @@ ___
 
 ### Problem
 <ul>
-  <li>Finding the most optimal path with regard to airport/population size of air flight traveling from city to city.</li>
+  <li>Finding the most optimal path with regard to airport/population size of air flight traveling from airport to airport.</li>
 </ul>
 
 ### How is that Problem Relevant
@@ -18,7 +18,13 @@ ___
 ### Plan/Outline
 <ul>
 <li>Create a gui application to house the visualization</li>
-  <li>Users can search for cities</li>
+  <li>Uses around 8k rows of data of airports</li>
+  <li>Create random flights (edges) with dataset</li>
+  <li>Finds the best path from one destination to another that the user inputs in the randomized (Graph)</li>
+  <li>Shows the shortest path by airports locations and distance (km)</li>
+  <li>Shows and compares the displacemnt distance (km)</li>
+  <li>Shows and compares the time computation in microseconds of the Dijsktra and A* alorithm</li>
+  <li>Produce a viuslization of the path using sfml</li>
 </ul>
 
 ### Algorithms/Data Structures Implemented
@@ -29,12 +35,13 @@ ___
 
 ### Public Datasets
 <ul>
-<li><a href='https://simplemaps.com/data/world-cities'>simplemaps Dataset</a></li>
-  <li><a href='https://www.kaggle.com/datasets/max-mind/world-cities-database?select=worldcitiespop.csv'>Kaggle Dataset: World Cities Database</a></li>
+<li><a href='https://simplemaps.com/data/world-cities'>Dataset</a>
+</li>
+  
 </ul>
 
 ### Libraries/API
 <ul>
-<li><a href='https://github.com/ocornut/imgui'>imgui</a></li>
+<li><a href='https://github.com/abangfarhan'>Sfml</a></li>
 
 </ul>
