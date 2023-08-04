@@ -34,12 +34,12 @@ unsigned int Graph::GCdistance(double lat1, double lon1, double lat2, double lon
 }
 
 // Search for airport name
-bool Graph::search(string airport) {
+bool Graph::search(string& airport) {
 	return ids.find(airport) != ids.end();
 }
 
 // Return coordinates of an airport
-pair<double, double> Graph::getCoordinates(string airport)
+pair<double, double> Graph::getCoordinates(string& airport)
 {
 	return coordinates[ids[airport]];
 }
