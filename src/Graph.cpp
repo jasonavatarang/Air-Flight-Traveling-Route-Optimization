@@ -39,7 +39,7 @@ bool Graph::search(string& airport) {
 }
 
 // Return coordinates of an airport
-pair<double, double> Graph::getCoordinates(string& airport)
+pair<double, double> Graph::getCoordinates(const string& airport)
 {
 	return coordinates[ids[airport]];
 }
