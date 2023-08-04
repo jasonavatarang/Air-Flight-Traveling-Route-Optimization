@@ -31,7 +31,7 @@ void PromptWindow(void* graph)
 			//
 			// Add mouse press event
 			//
-			// When mouse.clicked on button, 
+			// When mouse.clicked on button, update from, to, new_path
 			//
 
 			if (event.type == Event::Closed)
@@ -62,18 +62,22 @@ void GraphWindow(void* graph, std::string& from, std::string& to, bool& new_path
 			//
 			//
 			// Get the path from graph, which are airport names
+			// (Be careful of duplicate intermediate stops)
 			//
 			//
 			// Get coordinates using getCoordinates method
 			//
 			// 
 			// Turn real coordinates into pixels on screen 
+			// pair<unsigned int, unsigned int> coord2pixel(pair<double, double>& coordinates)
 			//
 			//
 			// Create dot objects representing airports (also their names?)
+			// void airportCreate(pair<unsigned int, unsigned int>& pixels)
 			// 
 			//
 			// Draw lines between dots
+			// void pathCreate(pair<unsigned int, unsigned int>& from, pair<unsigned int, unsigned int>& to);
 			//
 			// 
 			// Use sfml::::draw method to display all widgets

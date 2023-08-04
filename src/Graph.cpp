@@ -147,7 +147,7 @@ bool Graph::importGraph(std::string filename)
 		names.emplace_back(name);
 		delete[] name;
 	}
-	// write adj_list
+	// read adj_list
 	for (int i = 0; i < size; ++i) {
 		adj_list.emplace_back();
 
@@ -159,7 +159,7 @@ bool Graph::importGraph(std::string filename)
 			adj_list[i].push_back(e);
 		}
 	}
-	// write coordinates
+	// read coordinates
 	for (int i = 0; i < size; ++i) {
 		pair<double, double> coord;
 		fin.read((char*)&coord, sizeof(coord));
