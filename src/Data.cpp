@@ -13,6 +13,7 @@ double Data::toRadians(const double& degree)
 	return degree * M_PI / 180.0;
 }
 
+// Calculate great-circle distance
 unsigned int Data::GCdistance(double lat1, double lon1, double lat2, double lon2)
 {
 	lat1 = toRadians(lat1);
@@ -32,6 +33,7 @@ unsigned int Data::GCdistance(double lat1, double lon1, double lat2, double lon2
 	return ans * R;
 }
 
+// Open raw dataset
 bool Data::openRaw(string filename)
 {
 	ifstream fin(filename, ifstream::in);
@@ -69,6 +71,7 @@ bool Data::openRaw(string filename)
 	return true;
 }
 
+// Randomize flights, namely edges
 void Data::randomizeFlights(int num)
 {
 	if (airports.size() == 0)
@@ -91,6 +94,7 @@ void Data::randomizeFlights(int num)
 	}
 }
 
+// Print all flights
 void Data::printFlights()
 {
 	for (Flight& f : flights)

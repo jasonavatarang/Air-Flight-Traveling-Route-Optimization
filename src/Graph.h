@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <unordered_map>
+#include <string>
 #include "Data.h"
 
 class Graph
@@ -33,9 +34,11 @@ public:
 	bool exportGraph(std::string filename);
 	bool importGraph(std::string filename);	
 
-	// Path algms
+	// Observers
 	bool search(std::string airport);
-	std::string getValidAirportName(std::string prompt);
+	std::pair<double, double> getCoordinates(std::string airport);
+
+	// Path algms
 	double Displacement(std::string& from, std::string& to);
 	std::vector<std::string> BFS(std::string& from, std::string& to, unsigned int& cost);
 	std::vector<std::string> BFS(std::string& from, std::string& to, unsigned int& cost, unsigned int& time);

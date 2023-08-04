@@ -3,18 +3,17 @@
 #include <chrono>
 #include <fstream>
 #include <corecrt_math_defines.h>
-#include <string>
 #include "Graph.h"
 
 using namespace std;
 
-
+// Degrees to Radians
 double Graph::toRadians(const double& degree)
 {
 	return degree * M_PI / 180.0;
 }
 
-
+// Calculate great-circle distance
 unsigned int Graph::GCdistance(double lat1, double lon1, double lat2, double lon2)
 {
 	lat1 = toRadians(lat1);
@@ -34,25 +33,15 @@ unsigned int Graph::GCdistance(double lat1, double lon1, double lat2, double lon
 	return ans * R;
 }
 
-
+// Search for airport name
 bool Graph::search(string airport) {
-	if (ids.find(airport) == ids.end())
-		return false;
-	return true;
+	return ids.find(airport) != ids.end();
 }
 
-
-string Graph::getValidAirportName(string prompt) {
-	string airport;
-	while (true) {
-		cout << prompt << endl;
-		getline(cin, airport);
-
-		if (search(airport))
-			return airport;
-		else
-			cout << "Please enter a valid airport name (e.g., John F Kennedy International Airport)." << endl;
-	}
+// Return coordinates of an airport
+pair<double, double> Graph::getCoordinates(string airport)
+{
+	return coordinates[ids[airport]];
 }
 
 // Initialize one single node
@@ -221,6 +210,7 @@ vector<string> Graph::BFS(string& from, string& to, unsigned int& cost)
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
 
+// Breadth First Search with timer
 vector<string> Graph::BFS(string& from, string& to, unsigned int& cost, unsigned int& time)
 {
 	auto start = chrono::steady_clock::now();
@@ -272,6 +262,7 @@ vector<string> Graph::Astar(string& from, string& to, unsigned int& cost)
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
 
+// A* Search with timer
 vector<string> Graph::Astar(string& from, string& to, unsigned int& cost, unsigned int& time)
 {
 	auto start = chrono::steady_clock::now();
@@ -320,6 +311,7 @@ vector<string> Graph::Dijkstra(string& from, string& to, unsigned int& cost)
 	return reconstruct_path(ids[from], ids[to], came_from);
 }
 
+// Dijkstra Search with timer
 vector<string> Graph::Dijkstra(string& from, string& to, unsigned int& cost, unsigned int& time)
 {
 	auto start = chrono::steady_clock::now();
