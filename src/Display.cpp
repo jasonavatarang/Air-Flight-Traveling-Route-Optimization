@@ -73,11 +73,11 @@ void GraphWindow(void* graph, std::string& from, std::string& to, bool& new_path
 			//
 			//
 			// Create dot objects representing airports (also their names?)
-			// void airportDisplay(pair<unsigned int, unsigned int>& pixels)
+			// void airportCreate(pair<unsigned int, unsigned int>& pixels)
 			// 
 			//
 			// Draw lines between dots
-			// void pathDisplay(pair<unsigned int, unsigned int>& from, pair<unsigned int, unsigned int>& to);
+			// void pathCreate(pair<unsigned int, unsigned int>& from, pair<unsigned int, unsigned int>& to);
 			//
 			// 
 			// Use sfml::::draw method to display all widgets
