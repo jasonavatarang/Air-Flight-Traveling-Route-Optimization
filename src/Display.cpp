@@ -2,15 +2,11 @@
 #include <unordered_set>
 #include <iostream>
 #include <corecrt_math_defines.h>
-
 #include "SFML/Graphics.hpp"
-
 #include "Graph.h"
 #include "Display.h"
 
-
 using namespace sf;
-
 
 void PromptWindow(Graph& graph)
 {
@@ -18,6 +14,7 @@ void PromptWindow(Graph& graph)
 	int height = 600;
 	RenderWindow window(VideoMode(width, height), "Prompt");
 
+	//loading in font
 	Font font;
 	if (!font.loadFromFile("data/font.ttf")) {
 		std::cout << "Font not found!" << std::endl;
@@ -33,7 +30,7 @@ void PromptWindow(Graph& graph)
 	from_text.setPosition(50.f, 50.f);
 	from_text.setString("From Airport");
 	
-	// from textbox
+	//"from" textbox
 	sf::RectangleShape from_textbox(sf::Vector2f(200.f, 30.f));
 	from_textbox.setFillColor(sf::Color::White);
 	from_textbox.setOutlineColor(sf::Color::Black);
@@ -46,12 +43,13 @@ void PromptWindow(Graph& graph)
 	input_from_text.setPosition(50.f, 100.f);
 
 
-	// to textbox
+	//"to" textbox
 	sf::RectangleShape to_textbox(sf::Vector2f(200.f, 30.f));
 	to_textbox.setFillColor(sf::Color::White);
 	to_textbox.setOutlineColor(sf::Color::Black);
 	to_textbox.setOutlineThickness(2.f);
 	to_textbox.setPosition(50.f, 200.f);
+
 	Text input_to_text;
 	input_to_text.setFont(font);
 	input_to_text.setCharacterSize(20);
@@ -61,7 +59,6 @@ void PromptWindow(Graph& graph)
 	RectangleShape button(sf::Vector2f(200.f, 50.f));
 	button.setFillColor(sf::Color::Blue);
 	button.setPosition(50.f,250.f);	// Set up "submit" button
-
 
 	// Set up "submit" label
 	Text submit_label;
@@ -82,6 +79,7 @@ void PromptWindow(Graph& graph)
 	bool from_textbox_selected = false;
 	bool to_textbox_selected = false;
 
+	//clicking on a textbox, button,  or closing the window
 	while (window.isOpen())
 	{
 		Event event;
@@ -97,22 +95,20 @@ void PromptWindow(Graph& graph)
 				// store mouse position
 				Vector2i mousePos = Mouse::getPosition(window);
 
-				// from textbox
+				// "from" textbox
 				if (from_textbox.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
 				{
 					from_textbox_selected = true;
-					//std::cout << "From Textbox selected!" << std::endl;
 				}
 				else
 				{
 					from_textbox_selected = false;
 				}
 
-				// to text box
+				// "to" text box
 				if (to_textbox.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
 				{
 					to_textbox_selected = true;
-					//std::cout << "To Textbox selected!" << std::endl;
 				}
 				else
 				{
@@ -120,7 +116,7 @@ void PromptWindow(Graph& graph)
 				}
 
 
-				// submit
+				// submit button
 				if (button.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
 				{
 					// Update the from, to, and new_path variables
@@ -142,7 +138,6 @@ void PromptWindow(Graph& graph)
 
 						}
 						from = input_from_text.getString();
-						//std::cout << from << std::endl;
 					}
 				}
 				if (to_textbox_selected) {
@@ -157,7 +152,6 @@ void PromptWindow(Graph& graph)
 
 						}
 						to = input_to_text.getString();
-						//std::cout << to << std::endl;
 					}
 				}
 			}
@@ -168,15 +162,14 @@ void PromptWindow(Graph& graph)
 		window.draw(from_text); // label
 		window.draw(from_textbox); // box
 		window.draw(input_from_text); // input
-		window.draw(to_text);
-		window.draw(to_textbox);
-		window.draw(input_to_text);
-		window.draw(button);
-		window.draw(submit_label);
+		window.draw(to_text); //label
+		window.draw(to_textbox); //box
+		window.draw(input_to_text); //input
+		window.draw(button); //button
+		window.draw(submit_label); //text for button
 		window.display();
 	}
 }
-
 
 void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_path)
 {
