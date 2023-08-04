@@ -25,18 +25,31 @@ void PromptWindow(Graph& graph)
 	}
 
 	Text from_text, to_text;
-	RectangleShape submit_button;
 
-	// Set up "from" textbox
+	// Set up "from" lable
 	from_text.setFont(font);
 	from_text.setCharacterSize(20);
 	from_text.setFillColor(sf::Color::Black);
 	from_text.setPosition(50.f, 50.f);
+	from_text.setString("From Airport");
+	
+	// from textbox
+	sf::RectangleShape from_textbox(sf::Vector2f(200.f, 30.f));
+	from_textbox.setFillColor(sf::Color::White);
+	from_textbox.setOutlineColor(sf::Color::Black);
+	from_textbox.setOutlineThickness(2.f);
+	from_textbox.setPosition(50.f, 100.f);
+	Text input_from_text;
+	input_from_text.setFont(font);
+	input_from_text.setCharacterSize(20);
+	input_from_text.setFillColor(sf::Color::Black);
+	input_from_text.setPosition(50.f, 100.f);
 
-	// Set up "to" textbox
+	// Set up "to" label
 	to_text.setFont(font);
 	to_text.setCharacterSize(20);
 	to_text.setFillColor(sf::Color::Black);
+
 	to_text.setPosition(50.f, 100.f);
 
 	// Set up "submit" button
@@ -50,9 +63,44 @@ void PromptWindow(Graph& graph)
 	std::string to = "John F Kennedy International Airport";
 
 
+
+	to_text.setPosition(50.f, 150.f);
+	to_text.setString("To Airport");
+
+	// to textbox
+	sf::RectangleShape to_textbox(sf::Vector2f(200.f, 30.f));
+	to_textbox.setFillColor(sf::Color::White);
+	to_textbox.setOutlineColor(sf::Color::Black);
+	to_textbox.setOutlineThickness(2.f);
+	to_textbox.setPosition(50.f, 200.f);
+	Text input_to_text;
+	input_to_text.setFont(font);
+	input_to_text.setCharacterSize(20);
+	input_to_text.setFillColor(sf::Color::Black);
+	input_to_text.setPosition(50.f, 200.f);
+
+	RectangleShape button(sf::Vector2f(200.f, 50.f));
+	button.setFillColor(sf::Color::Blue);
+	button.setPosition(50.f,250.f);
+
+	// Set up "submit" label
+	Text submit_label;
+	submit_label.setFont(font);
+	submit_label.setString("Find Path:)");
+	submit_label.setCharacterSize(24);
+	submit_label.setFillColor(sf::Color::White);
+	submit_label.setPosition(50.f, 250.f);
+
+	bool new_path = false;
+	//std::string from = "Yaoqiang Airport";
+	//std::string to = "John F Kennedy International Airport";
+	std::string from = "";
+	std::string to = "";
+
 	std::thread GraphWindow_thread([&] {GraphWindow(graph, from, to, new_path); });
 	GraphWindow_thread.detach();
-
+	bool from_textbox_selected = false;
+	bool to_textbox_selected = false;
 
 	while (window.isOpen())
 	{
@@ -63,25 +111,88 @@ void PromptWindow(Graph& graph)
 			{
 				window.close();
 			}
+
 			else if (event.type == Event::MouseButtonPressed)
 			{
-				// Check if the mouse clicked on the submit button
+				// store mouse position
 				Vector2i mousePos = Mouse::getPosition(window);
-				if (submit_button.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
+
+				// from textbox
+				if (from_textbox.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
+				{
+					from_textbox_selected = true;
+					//std::cout << "From Textbox selected!" << std::endl;
+				}
+				else
+				{
+					from_textbox_selected = false;
+				}
+
+				// to text box
+				if (to_textbox.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
+				{
+					to_textbox_selected = true;
+					//std::cout << "To Textbox selected!" << std::endl;
+				}
+				else
+				{
+					to_textbox_selected = false;
+				}
+
+
+				// submit
+				if (button.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
 				{
 					// Update the from, to, and new_path variables
-					from = from_text.getString();
-					to = to_text.getString();
-					new_path = true; // Set the flag to indicate that new input is available
+					std::cout << from << std::endl;
+					std::cout << to << std::endl;
+					new_path = true;
+				}
+			}
+			else if (event.type == Event::TextEntered) {
+				if (from_textbox_selected) {
+					if (event.text.unicode < 128) {
+						if (event.text.unicode == '\b' && !input_from_text.getString().isEmpty()) {
+							std::string temp = input_from_text.getString();
+							temp.pop_back();
+							input_from_text.setString(temp);
+						}
+						else {
+							input_from_text.setString(input_from_text.getString() + static_cast<char>(event.text.unicode));
+
+						}
+						from = input_from_text.getString();
+						//std::cout << from << std::endl;
+					}
+				}
+				if (to_textbox_selected) {
+					if (event.text.unicode < 128) {
+						if (event.text.unicode == '\b' && !input_to_text.getString().isEmpty()) {
+							std::string temp = input_to_text.getString();
+							temp.pop_back();
+							input_to_text.setString(temp);
+						}
+						else {
+							input_to_text.setString(input_to_text.getString() + static_cast<char>(event.text.unicode));
+
+						}
+						to = input_to_text.getString();
+						//std::cout << to << std::endl;
+					}
 				}
 			}
 		}
 
 		window.clear(Color::White);
 		// Draw GUI elements
-		window.draw(from_text);
+		window.draw(from_text); // label
+		window.draw(from_textbox); // box
+		window.draw(input_from_text); // input
 		window.draw(to_text);
-		window.draw(submit_button);
+		window.draw(to_textbox);
+		window.draw(input_to_text);
+		window.draw(button);
+		window.draw(submit_label);
 		window.display();
 	}
 }
