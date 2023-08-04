@@ -1,5 +1,9 @@
 #include <thread>
+#include <unordered_set>
+#include <iostream>
+
 #include "SFML/Graphics.hpp"
+
 #include "Graph.h"
 #include <SFML/Window.hpp>
 #include "Display.h"
@@ -43,8 +47,13 @@ void PromptWindow(Graph& graph)
 
 	SetupGUI(window, font, from_text, to_text, submit_button);
 
-	bool new_path = false;
-	std::string from, to;
+
+	bool new_path = true;
+	std::string from = "Yaoqiang Airport";
+	std::string to = "John F Kennedy International Airport";
+	std::thread GraphWindow_thread([&] {GraphWindow(graph, from, to, new_path); });
+	GraphWindow_thread.detach();
+
 
 	while (window.isOpen())
 	{
@@ -82,9 +91,8 @@ void PromptWindow(Graph& graph)
 
 void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_path)
 {
-	unsigned int width = 400;
-	unsigned int height = 600;
-	RenderWindow window(VideoMode(width, height), "graph", Style::Titlebar);
+	std::pair<unsigned int, unsigned int> window_size(600, 800); // window_size<width, height>
+	RenderWindow window(VideoMode(window_size.first, window_size.second), "graph", Style::Titlebar);
 	while (window.isOpen())
 	{
 		// Don't receive any events
@@ -92,24 +100,28 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 		while (window.pollEvent(event)) {}
 
 		if (new_path) {
+			unsigned int cost, time;
+			std::vector<std::string> path;
+			std::unordered_set<std::pair<unsigned int, unsigned int>> stops;
+			std::vector<std::pair<unsigned int, unsigned int>> dijk_pixel, astr_pixel;
 
-			//
-			//
-			// Get the path from graph, which are airport names
-			// (Be careful of duplicate intermediate stops)
-			//
-			//
-			// Get coordinates using getCoordinates method
-			//
-			// 
-			// Turn real coordinates into pixels on screen 
-			// pair<unsigned int, unsigned int> coord2pixel(pair<double, double>& coordinates)
-			//
-			//
-			// Create dot objects representing airports (also their names?)
-			// void airportCreate(pair<unsigned int, unsigned int>& pixels)
-			// 
-			//
+			// Get new path from graph
+			path = graph.Dijkstra(from, to, cost, time);
+			for (std::string& airport : path) {
+				stops.insert(graph.getCoordinates(airport));
+				dijk_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
+			}
+			path = graph.Astar(from, to, cost, time);
+			for (std::string& airport : path) {
+				stops.insert(graph.getCoordinates(airport));
+				astr_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
+			}
+
+			// Create objects representing airports (also their names?)
+			for (auto& stop : stops) {
+				airportCreate(stop);
+			}
+
 			// Draw lines between dots
 			// void pathCreate(pair<unsigned int, unsigned int>& from, pair<unsigned int, unsigned int>& to);
 			//
@@ -117,7 +129,7 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 			// Use sfml::::draw method to display all widgets
 			//
 			//
-
+			new_path = false;
 		}
 
 		window.clear(Color::White);
@@ -125,12 +137,12 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 	}
 }
 
-std::pair<unsigned int, unsigned int> coord2pixel(std::pair<double, double>& coordinates)
+std::pair<unsigned int, unsigned int> coord2pixel(std::pair<double, double> coordinates, std::pair<unsigned int, unsigned int>& window_size)
 {
-	return std::pair<unsigned int, unsigned int>();
+	return std::pair<unsigned int, unsigned int>(coordinates.second / 360.0 * window_size.first + window_size.first / 2.0, -coordinates.first / 180.0 * window_size.second + window_size.second / 2.0);
 }
 
-void airportCreate(std::pair<unsigned int, unsigned int>& pixels)
+void airportCreate(std::pair<unsigned int, unsigned int> airport)
 {
 }
 
