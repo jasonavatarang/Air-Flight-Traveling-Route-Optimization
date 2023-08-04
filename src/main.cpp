@@ -4,12 +4,11 @@
 #include "Graph.h"
 #include "Display.h"
 
-using namespace std;
-
 int main()
 {
 	Graph g;
 	g.importGraph("data/ourDataSet");
+
 
 	PromptWindow(&g);
 
