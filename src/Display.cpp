@@ -10,8 +10,22 @@
 
 using namespace sf;
 
-void SetupGUI(RenderWindow& window, Font& font, Text& from_text, Text& to_text, RectangleShape& submit_button)
+
+void PromptWindow(Graph& graph)
 {
+	unsigned int width = 800;
+	unsigned int height = 600;
+	RenderWindow window(VideoMode(width, height), "Prompt");
+
+	Font font;
+	if (!font.loadFromFile("data/font.ttf")) {
+		std::cout << "Font not found!" << std::endl;
+		return;
+	}
+
+	Text from_text, to_text;
+	RectangleShape submit_button;
+
 	// Set up "from" textbox
 	from_text.setFont(font);
 	from_text.setCharacterSize(20);
@@ -28,24 +42,6 @@ void SetupGUI(RenderWindow& window, Font& font, Text& from_text, Text& to_text, 
 	submit_button.setSize(Vector2f(100.f, 40.f));
 	submit_button.setFillColor(sf::Color::Green);
 	submit_button.setPosition(50.f, 150.f);
-}
-
-void PromptWindow(Graph& graph)
-{
-	unsigned int width = 800;
-	unsigned int height = 600;
-	RenderWindow window(VideoMode(width, height), "Prompt");
-
-	Font font;
-	if (!font.loadFromFile("font.ttf")) {
-		// Handle font loading failure
-		return;
-	}
-
-	Text from_text, to_text;
-	RectangleShape submit_button;
-
-	SetupGUI(window, font, from_text, to_text, submit_button);
 
 
 	bool new_path = true;
@@ -101,26 +97,26 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 
 		if (new_path) {
 			unsigned int cost, time;
-			std::vector<std::string> path;
-			std::unordered_set<std::pair<unsigned int, unsigned int>> stops;
-			std::vector<std::pair<unsigned int, unsigned int>> dijk_pixel, astr_pixel;
+			//std::vector<std::string> path;
+			//std::unordered_set<std::pair<unsigned int, unsigned int>> stops;
+			//std::vector<std::pair<unsigned int, unsigned int>> dijk_pixel, astr_pixel;
 
-			// Get new path from graph
-			path = graph.Dijkstra(from, to, cost, time);
-			for (std::string& airport : path) {
-				stops.insert(graph.getCoordinates(airport));
-				dijk_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
-			}
-			path = graph.Astar(from, to, cost, time);
-			for (std::string& airport : path) {
-				stops.insert(graph.getCoordinates(airport));
-				astr_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
-			}
+			//// Get new path from graph
+			//path = graph.Dijkstra(from, to, cost, time);
+			//for (std::string& airport : path) {
+			//	stops.insert(graph.getCoordinates(airport));
+			//	dijk_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
+			//}
+			//path = graph.Astar(from, to, cost, time);
+			//for (std::string& airport : path) {
+			//	stops.insert(graph.getCoordinates(airport));
+			//	astr_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
+			//}
 
 			// Create objects representing airports (also their names?)
-			for (auto& stop : stops) {
-				airportCreate(stop);
-			}
+			//for (auto& stop : stops) {
+			//	airportCreate(stop);
+			//}
 
 			// Draw lines between dots
 			// void pathCreate(pair<unsigned int, unsigned int>& from, pair<unsigned int, unsigned int>& to);
