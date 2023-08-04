@@ -10,7 +10,7 @@ int main()
 	g.importGraph("data/ourDataSet");
 
 
-	PromptWindow(&g);
+	PromptWindow(g);
 
 
 

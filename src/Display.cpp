@@ -5,7 +5,7 @@
 
 using namespace sf;
 
-void PromptWindow(void* graph)
+void PromptWindow(Graph& graph)
 {
 	unsigned int width = 800;
 	unsigned int height = 600;
@@ -46,7 +46,7 @@ void PromptWindow(void* graph)
 }
 
 
-void GraphWindow(void* graph, std::string& from, std::string& to, bool& new_path)
+void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_path)
 {
 	unsigned int width = 400;
 	unsigned int height = 600;
@@ -89,4 +89,17 @@ void GraphWindow(void* graph, std::string& from, std::string& to, bool& new_path
 		window.clear(Color::White);
 		window.display();
 	}
+}
+
+std::pair<unsigned int, unsigned int> coord2pixel(std::pair<double, double>& coordinates)
+{
+	return std::pair<unsigned int, unsigned int>();
+}
+
+void airportCreate(std::pair<unsigned int, unsigned int>& pixels)
+{
+}
+
+void pathCreate(std::pair<unsigned int, unsigned int>& from, std::pair<unsigned int, unsigned int>& to)
+{
 }

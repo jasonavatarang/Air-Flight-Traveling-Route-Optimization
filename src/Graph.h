@@ -35,8 +35,8 @@ public:
 	bool importGraph(std::string filename);	
 
 	// Observers
-	bool search(std::string airport);
-	std::pair<double, double> getCoordinates(std::string airport);
+	bool search(std::string& airport);
+	std::pair<double, double> getCoordinates(std::string& airport);
 
 	// Path algms
 	unsigned int Displacement(std::string& from, std::string& to);
