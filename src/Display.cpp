@@ -5,7 +5,6 @@
 #include "SFML/Graphics.hpp"
 
 #include "Graph.h"
-#include <SFML/Window.hpp>
 #include "Display.h"
 
 using namespace sf;
@@ -89,6 +88,10 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 {
 	std::pair<unsigned int, unsigned int> window_size(600, 800); // window_size<width, height>
 	RenderWindow window(VideoMode(window_size.first, window_size.second), "graph", Style::Titlebar);
+
+	// Widgets
+	std::vector<CircleShape> airports;
+
 	while (window.isOpen())
 	{
 		// Don't receive any events
@@ -97,26 +100,26 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 
 		if (new_path) {
 			unsigned int cost, time;
-			//std::vector<std::string> path;
-			//std::unordered_set<std::pair<unsigned int, unsigned int>> stops;
-			//std::vector<std::pair<unsigned int, unsigned int>> dijk_pixel, astr_pixel;
+			std::vector<std::string> path;
+			std::unordered_set<std::string> stops;
+			std::vector<std::pair<unsigned int, unsigned int>> dijk_pixel, astr_pixel;
 
-			//// Get new path from graph
-			//path = graph.Dijkstra(from, to, cost, time);
-			//for (std::string& airport : path) {
-			//	stops.insert(graph.getCoordinates(airport));
-			//	dijk_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
-			//}
-			//path = graph.Astar(from, to, cost, time);
-			//for (std::string& airport : path) {
-			//	stops.insert(graph.getCoordinates(airport));
-			//	astr_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
-			//}
+			// Get new path from graph
+			path = graph.Dijkstra(from, to, cost, time);
+			for (std::string& airport : path) {
+				stops.insert(airport);
+				dijk_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
+			}
+			path = graph.Astar(from, to, cost, time);
+			for (std::string& airport : path) {
+				stops.insert(airport);
+				astr_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
+			}
 
 			// Create objects representing airports (also their names?)
-			//for (auto& stop : stops) {
-			//	airportCreate(stop);
-			//}
+			for (auto iter = stops.begin(); iter != stops.end(); ++iter) {
+				airportDisplay(coord2pixel(graph.getCoordinates(*iter), window_size), airports);
+			}
 
 			// Draw lines between dots
 			// void pathCreate(pair<unsigned int, unsigned int>& from, pair<unsigned int, unsigned int>& to);
@@ -135,11 +138,17 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 
 std::pair<unsigned int, unsigned int> coord2pixel(std::pair<double, double> coordinates, std::pair<unsigned int, unsigned int>& window_size)
 {
-	return std::pair<unsigned int, unsigned int>(coordinates.second / 360.0 * window_size.first + window_size.first / 2.0, -coordinates.first / 180.0 * window_size.second + window_size.second / 2.0);
+	return std::pair<unsigned int, unsigned int>(round(coordinates.second / 360.0 * window_size.first + window_size.first / 2.0), round(-coordinates.first / 180.0 * window_size.second + window_size.second / 2.0));
 }
 
-void airportCreate(std::pair<unsigned int, unsigned int> airport)
+void airportDisplay(std::pair<unsigned int, unsigned int> airport, std::vector<sf::CircleShape>& airports)
 {
+	//std::cout<<airport.first<<" "<<airport.
+	//sf::CircleShape shape(50);
+
+	//// set the shape color to green
+	//shape.setFillColor(sf::Color(100, 250, 50));
+
 }
 
 void pathCreate(std::pair<unsigned int, unsigned int>& from, std::pair<unsigned int, unsigned int>& to)
