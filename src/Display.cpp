@@ -26,7 +26,7 @@ void PromptWindow(Graph& graph)
 
 	Text from_text, to_text;
 
-	// Set up "from" lable
+	// Set up "from" label
 	from_text.setFont(font);
 	from_text.setCharacterSize(20);
 	from_text.setFillColor(sf::Color::Black);
@@ -45,27 +45,6 @@ void PromptWindow(Graph& graph)
 	input_from_text.setFillColor(sf::Color::Black);
 	input_from_text.setPosition(50.f, 100.f);
 
-	// Set up "to" label
-	to_text.setFont(font);
-	to_text.setCharacterSize(20);
-	to_text.setFillColor(sf::Color::Black);
-
-	to_text.setPosition(50.f, 100.f);
-
-	// Set up "submit" button
-	submit_button.setSize(Vector2f(100.f, 40.f));
-	submit_button.setFillColor(sf::Color::Green);
-	submit_button.setPosition(50.f, 150.f);
-
-
-	bool new_path = true;
-	std::string from = "Yaoqiang Airport";
-	std::string to = "John F Kennedy International Airport";
-
-
-
-	to_text.setPosition(50.f, 150.f);
-	to_text.setString("To Airport");
 
 	// to textbox
 	sf::RectangleShape to_textbox(sf::Vector2f(200.f, 30.f));
@@ -81,7 +60,8 @@ void PromptWindow(Graph& graph)
 
 	RectangleShape button(sf::Vector2f(200.f, 50.f));
 	button.setFillColor(sf::Color::Blue);
-	button.setPosition(50.f,250.f);
+	button.setPosition(50.f,250.f);	// Set up "submit" button
+
 
 	// Set up "submit" label
 	Text submit_label;
