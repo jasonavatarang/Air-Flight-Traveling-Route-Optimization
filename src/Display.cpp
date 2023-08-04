@@ -114,7 +114,7 @@ void PromptWindow(Graph& graph)
 				if (to_textbox.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
 				{
 					to_textbox_selected = true;
-					/std::cout << "To Textbox selected!" << std::endl;
+					//std::cout << "To Textbox selected!" << std::endl;
 				}
 				else
 				{
