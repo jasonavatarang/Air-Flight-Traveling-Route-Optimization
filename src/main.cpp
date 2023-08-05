@@ -13,12 +13,18 @@ int main()
 	std::cout << "User Mode:\n1: Open raw dataset and randomly generate a graph;\n2: Open the graph and prompt window;\n";
 	std::cin >> mode;
 	if (mode == 1) {
+		unsigned int num = 0;
+		std::cout << "Number of edges to be generated:\n";
+		std::cin >> num;
+
 		Data d;
 		d.openRaw("data/openflights_airports");
-		d.randomizeFlights(1000000);
+		d.randomizeFlights(num);
 
 		g.insert(d);
 		g.exportGraph("data/ourDataSet");
+
+		PromptWindow(g);
 	}
 	else if (mode == 2) {
 		g.importGraph("data/ourDataSet");
