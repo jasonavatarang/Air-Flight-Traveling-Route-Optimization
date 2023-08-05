@@ -10,9 +10,7 @@ using namespace sf;
 
 void PromptWindow(Graph& graph)
 {
-	int width = 800;
-	int height = 600;
-	RenderWindow window(VideoMode(width, height), "Prompt");
+	RenderWindow window(VideoMode(450, 600), "Prompt");
 
 	//loading in font
 	Font font;
@@ -21,53 +19,64 @@ void PromptWindow(Graph& graph)
 		return;
 	}
 
-	Text from_text, to_text;
+	Text from_text, to_text, result_text, input_from_text, input_to_text, submit_label;
 
 	// Set up "from" label
 	from_text.setFont(font);
 	from_text.setCharacterSize(20);
 	from_text.setFillColor(Color::Black);
-	from_text.setPosition(50.f, 50.f);
+	from_text.setPosition(50.f, 60.f);
 	from_text.setString("From Airport");
 
 	//"from" textbox
-	RectangleShape from_textbox(Vector2f(200.f, 30.f));
+	RectangleShape from_textbox(Vector2f(300.f, 30.f));
 	from_textbox.setFillColor(Color::White);
 	from_textbox.setOutlineColor(Color::Black);
 	from_textbox.setOutlineThickness(2.f);
 	from_textbox.setPosition(50.f, 100.f);
-	Text input_from_text;
+
 	input_from_text.setFont(font);
 	input_from_text.setCharacterSize(20);
 	input_from_text.setFillColor(Color::Black);
 	input_from_text.setPosition(50.f, 100.f);
 
-
 	//"to" textbox
-	RectangleShape to_textbox(Vector2f(200.f, 30.f));
+	RectangleShape to_textbox(Vector2f(300.f, 30.f));
 	to_textbox.setFillColor(Color::White);
 	to_textbox.setOutlineColor(Color::Black);
 	to_textbox.setOutlineThickness(2.f);
 	to_textbox.setPosition(50.f, 200.f);
 
-	Text input_to_text;
 	input_to_text.setFont(font);
 	input_to_text.setCharacterSize(20);
 	input_to_text.setFillColor(Color::Black);
 	input_to_text.setPosition(50.f, 200.f);
 
-	RectangleShape button(Vector2f(200.f, 50.f));
+	// Set up "to" label
+	to_text.setFont(font);
+	to_text.setCharacterSize(20);
+	to_text.setFillColor(Color::Black);
+	to_text.setPosition(50.f, 160.f);
+	to_text.setString("To Airport");
+
+	RectangleShape button(Vector2f(170.f, 35.f));
 	button.setFillColor(Color::Blue);
 	button.setPosition(50.f, 250.f);
 
 	// Set up "submit" label
-	Text submit_label;
 	submit_label.setFont(font);
-	submit_label.setString("Find Path:)");
+	submit_label.setString("Find Path :)");
 	submit_label.setCharacterSize(24);
 	submit_label.setFillColor(Color::White);
 	submit_label.setPosition(50.f, 250.f);
 
+	// Set up "result"
+	result_text.setFont(font);
+	result_text.setCharacterSize(20);
+	result_text.setFillColor(Color::Black);
+	result_text.setPosition(20.f, 300.f);
+
+	path_output result;
 	bool new_path = false;
 	std::string from = "";
 	std::string to = "";
@@ -76,7 +85,7 @@ void PromptWindow(Graph& graph)
 	from = "Westport Airport, NZWS";
 	to = "Rafael Cabrera Airport, MUNG";
 
-	std::thread GraphWindow_thread([&] {GraphWindow(graph, from, to, new_path); });
+	std::thread GraphWindow_thread([&] {GraphWindow(graph, from, to, new_path, result); });
 	GraphWindow_thread.detach();
 	bool from_textbox_selected = false;
 	bool to_textbox_selected = false;
@@ -142,6 +151,22 @@ void PromptWindow(Graph& graph)
 			}
 		}
 
+		// Display results
+		if (result.new_path) {
+			result.new_path = false;
+			if (result.displacement != 0) {
+				std::string rslt;
+				rslt += "Displacement on the Earth:\n" + std::to_string(result.displacement) + " km";
+				rslt += "\n\nBFS (Green)\ntime: " + std::to_string(result.BFS_time) + " us" + "\ndistance: " + std::to_string(result.BFS_cost) + " km";
+				rslt += "\n\nDijkstra (Yellow)\ntime: " + std::to_string(result.Dijkstra_time) + " us" + "\ndistance: " + std::to_string(result.Dijkstra_cost) + " km";
+				rslt += "\n\nAstar (Red)\ntime: " + std::to_string(result.Astar_time) + " us" + "\ndistance: " + std::to_string(result.Astar_cost) + " km";
+				result_text.setString(rslt);
+			}
+			else {
+				result_text.setString("Cannot find a path!");
+			}
+		}
+
 		window.clear(Color::White);
 		// Draw GUI elements
 		window.draw(from_text); // label
@@ -152,12 +177,13 @@ void PromptWindow(Graph& graph)
 		window.draw(input_to_text); //input
 		window.draw(button); //button
 		window.draw(submit_label); //text for button
+		window.draw(result_text); //text for result
 		window.display();
 	}
 }
 
 
-void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_path)
+void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_path, path_output& result)
 {
 	std::pair<int, int> window_size(1600, 800); // window_size<width, height>
 	RenderWindow window(VideoMode(window_size.first, window_size.second), "graph", Style::Titlebar);
@@ -184,6 +210,12 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 			// Clear the vectors
 			airports.clear();
 			paths.clear();
+			if (!(graph.search(from) && graph.search(to))) {
+				result.displacement = 0;
+				result.new_path = true;
+				new_path = false;
+				continue;
+			}
 
 			unsigned int cost, time;
 			Color color;
@@ -192,7 +224,7 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 			std::vector<std::pair<int, int>> bfs_pixel, dijk_pixel, astr_pixel; // pixel<x, y>
 
 			// Get displacement
-			std::cout << graph.Displacement(from, to) << std::endl;
+			result.displacement = graph.Displacement(from, to) / 1000;
 
 			// Get new path from graph
 			path = graph.BFS(from, to, cost, time);
@@ -200,26 +232,30 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 				stops.insert(airport);
 				bfs_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
 			}
-			std::cout << cost << " " << time << std::endl;
+			result.BFS_cost = cost / 1000;
+			result.BFS_time = time;
+
 			path = graph.Dijkstra(from, to, cost, time);
 			for (std::string& airport : path) {
 				stops.insert(airport);
 				dijk_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
 			}
-			std::cout << cost << " " << time << std::endl;
+			result.Dijkstra_cost = cost / 1000;
+			result.Dijkstra_time = time;
+
 			path = graph.Astar(from, to, cost, time);
 			for (std::string& airport : path) {
 				stops.insert(airport);
 				astr_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
 			}
-			std::cout << cost << " " << time << std::endl;
+			result.Astar_cost = cost / 1000;
+			result.Astar_time = time;
 
-			// Create objects representing airports (also their names?)
-			for (auto iter = stops.begin(); iter != stops.end(); ++iter) {
+			// Create objects representing airports
+			for (auto iter = stops.begin(); iter != stops.end(); ++iter)
 				airportDisplay(coord2pixel(graph.getCoordinates(*iter), window_size), airports);
-			}
 
-			// Draw BFS path
+			// Draw BFS paths
 			color = Color::Green;
 			for (int i = 1; i < bfs_pixel.size(); ++i)
 				pathDisplay(bfs_pixel[i - 1], bfs_pixel[i], color, 6, paths);
@@ -234,6 +270,7 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 			for (int i = 1; i < astr_pixel.size(); ++i)
 				pathDisplay(astr_pixel[i - 1], astr_pixel[i], color, 2, paths);
 
+			result.new_path = true;
 			new_path = false;
 		}
 
