@@ -8,16 +8,16 @@
 using namespace std;
 
 // Degrees to Radians
-void Graph::toRadians(long double& degree)
+void Graph::toRadians(double& degree)
 {
 	degree *= M_PI / 180.0;
 }
 
 // Calculate great-circle distance
-unsigned int Graph::GCdistance(long double lat1, long double lon1, long double lat2, long double lon2)
+unsigned int Graph::GCdistance(double lat1, double lon1, double lat2, double lon2)
 {
-	long double dlat = abs(lat1 - lat2);
-	long double dlon = abs(lon1 - lon2);
+	double dlat = abs(lat1 - lat2);
+	double dlon = abs(lon1 - lon2);
 
 	toRadians(lat1);
 	toRadians(lon1);
@@ -27,13 +27,13 @@ unsigned int Graph::GCdistance(long double lat1, long double lon1, long double l
 	toRadians(dlon);
 
 	// Haversine Formula
-	long double ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon / 2), 2);
+	double ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon / 2), 2);
 	ans = 2 * asin(sqrt(ans));
 
 	// Average radius of Earth, R = 6371009 m
-	long double R = 6371009;
+	double R = 6371009;
 
-	return ans * R;
+	return (unsigned int)(ans * R);
 }
 
 // Search for airport name
@@ -43,13 +43,13 @@ bool Graph::search(string& airport)
 }
 
 // Return coordinates of an airport
-pair<long double, long double> Graph::getCoordinates(const string& airport)
+pair<double, double> Graph::getCoordinates(const string& airport)
 {
 	return coordinates[ids[airport]];
 }
 
 // Initialize one single node
-void Graph::add(string& element, long double& lat, long double& lon)
+void Graph::add(string& element, double& lat, double& lon)
 {
 	if (ids.find(element) != ids.end())
 		return;
@@ -77,7 +77,7 @@ vector<string> Graph::reconstruct_path(int start, int to, vector<int>& came_from
 }
 
 // Insert an edge to the graph
-void Graph::insert(string from, string to, unsigned int weight, long double lat1, long double lon1, long double lat2, long double lon2)
+void Graph::insert(string from, string to, unsigned int weight, double lat1, double lon1, double lat2, double lon2)
 {
 	// Initialize
 	add(from, lat1, lon1);
@@ -114,19 +114,19 @@ bool Graph::exportGraph(std::string filename)
 
 	// write names
 	for (string& name : names) {
-		unsigned short n_size = name.size() + 1;
+		unsigned int n_size = (unsigned int)name.size() + 1;
 		fout.write((char*)&n_size, sizeof(n_size));
 		fout.write(name.c_str(), n_size);
 	}
 	// write adj_list
 	for (vector<pair<int, unsigned int>>& edges : adj_list) {
-		unsigned short v_size = edges.size();
+		unsigned int v_size = (unsigned int)edges.size();
 		fout.write((char*)&v_size, sizeof(v_size));
 		for (pair<int, unsigned int>& e : edges)
 			fout.write((char*)&e, sizeof(e));
 	}
 	// write coordinates
-	for (pair<long double, long double>& coord : coordinates)
+	for (pair<double, double>& coord : coordinates)
 		fout.write((char*)&coord, sizeof(coord));
 
 	fout.close();
@@ -145,7 +145,7 @@ bool Graph::importGraph(std::string filename)
 
 	// read names
 	for (int i = 0; i < size; ++i) {
-		unsigned short n_size;
+		unsigned int n_size = 0;
 		fin.read((char*)&n_size, sizeof(n_size));
 		char* name = new char[n_size];
 		fin.read(name, n_size);
@@ -156,9 +156,9 @@ bool Graph::importGraph(std::string filename)
 	for (int i = 0; i < size; ++i) {
 		adj_list.emplace_back();
 
-		unsigned short v_size;
+		unsigned int v_size = 0;
 		fin.read((char*)&v_size, sizeof(v_size));
-		for (int j = 0; j < v_size; ++j) {
+		for (unsigned int j = 0; j < v_size; ++j) {
 			pair<int, unsigned int> e;
 			fin.read((char*)&e, sizeof(e));
 			adj_list[i].push_back(e);
@@ -166,7 +166,7 @@ bool Graph::importGraph(std::string filename)
 	}
 	// read coordinates
 	for (int i = 0; i < size; ++i) {
-		pair<long double, long double> coord;
+		pair<double, double> coord;
 		fin.read((char*)&coord, sizeof(coord));
 		coordinates.push_back(coord);
 	}
@@ -190,22 +190,22 @@ vector<string> Graph::BFS(string& from, string& to, unsigned int& cost)
 	queue<int> q;
 	vector<int> came_from(size, -1);
 	vector<unsigned int> cost_so_far(size, UINT_MAX);
+	bool found = false;
 
 	came_from[ids[from]] = ids[from];
 	q.push(ids[from]);
 
-	while (!q.empty()) {
+	while (!found && !q.empty()) {
 		int current = q.front();
 		q.pop();
-
-		if (current == ids[to])
-			break;
 
 		for (pair<int, unsigned int>& next : adj_list[current]) {
 			if (came_from[next.first] == -1) {
 				came_from[next.first] = current;
 				cost_so_far[next.first] = cost_so_far[current] + next.second;
 				q.push(next.first);
+				if (next.first == ids[to])
+					found = true;
 			}
 		}
 	}
@@ -222,7 +222,7 @@ vector<string> Graph::BFS(string& from, string& to, unsigned int& cost, unsigned
 
 	auto stop = chrono::steady_clock::now();
 	auto duration = chrono::duration_cast <chrono::microseconds> (stop - start);
-	time = duration.count();
+	time = (unsigned int)duration.count();
 
 	return result;
 }
@@ -235,7 +235,7 @@ vector<string> Graph::Astar(string& from, string& to, unsigned int& cost)
 	vector<int> came_from(size, -1);
 	vector<unsigned int> cost_so_far(size, UINT_MAX);
 
-	pair<long double, long double> dest_coordinates(coordinates[ids[to]].first, coordinates[ids[to]].second);
+	pair<double, double> dest_coordinates(coordinates[ids[to]].first, coordinates[ids[to]].second);
 
 	cost_so_far[ids[from]] = 0;
 	pq.emplace(cost_so_far[ids[from]], ids[from]);
@@ -270,7 +270,7 @@ vector<string> Graph::Astar(string& from, string& to, unsigned int& cost, unsign
 
 	auto stop = chrono::steady_clock::now();
 	auto duration = chrono::duration_cast <chrono::microseconds> (stop - start);
-	time = duration.count();
+	time = (unsigned int)duration.count();
 
 	return result;
 }
@@ -315,7 +315,7 @@ vector<string> Graph::Dijkstra(string& from, string& to, unsigned int& cost, uns
 
 	auto stop = chrono::steady_clock::now();
 	auto duration = chrono::duration_cast <chrono::microseconds> (stop - start);
-	time = duration.count();
+	time = (unsigned int)duration.count();
 
 	return result;
 }

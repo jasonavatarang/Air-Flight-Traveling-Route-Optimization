@@ -73,8 +73,8 @@ void PromptWindow(Graph& graph)
 	std::string to = "";
 
 	new_path = true;
-	from = "John F Kennedy International Airport, KJFK";
-	to = "Yaoqiang Airport, ZSJN";
+	from = "Westport Airport, NZWS";
+	to = "Rafael Cabrera Airport, MUNG";
 
 	std::thread GraphWindow_thread([&] {GraphWindow(graph, from, to, new_path); });
 	GraphWindow_thread.detach();
@@ -225,12 +225,12 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 				pathDisplay(bfs_pixel[i - 1], bfs_pixel[i], color, 6, paths);
 
 			// Draw Dijkstra path
-			color = Color::Red;
+			color = Color::Yellow;
 			for (int i = 1; i < dijk_pixel.size(); ++i)
 				pathDisplay(dijk_pixel[i - 1], dijk_pixel[i], color, 4, paths);
 
 			// Draw Astar path
-			color = Color::Yellow;
+			color = Color::Red;
 			for (int i = 1; i < astr_pixel.size(); ++i)
 				pathDisplay(astr_pixel[i - 1], astr_pixel[i], color, 2, paths);
 
@@ -272,7 +272,7 @@ void pathDisplay(std::pair<int, int>& from, std::pair<int, int>& to, Color& colo
 	int index = paths.size();
 	paths.emplace_back(Vector2f(sqrt(pow(from.first - to.first, 2) + pow(from.second - to.second, 2)), thickness));
 	paths[index].setFillColor(color);
-	paths[index].setOrigin(0, thickness / 2);
+	paths[index].setOrigin(0, thickness / 2.0f);
 	paths[index].setPosition(from.first, from.second);
 	paths[index].setRotation(-atan2(from.second - to.second, to.first - from.first) * 180 / M_PI);
 }

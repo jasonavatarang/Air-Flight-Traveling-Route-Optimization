@@ -4,8 +4,8 @@ class Data
 {
 	struct Airport {
 		std::string name;
-		long double latitude = 0;
-		long double longitude = 0;
+		double latitude = 0;
+		double longitude = 0;
 	};
 	struct Flight {
 		int from_id = -1;

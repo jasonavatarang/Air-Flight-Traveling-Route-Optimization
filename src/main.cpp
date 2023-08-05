@@ -12,7 +12,7 @@ int main()
 
 	//Data d;
 	//d.openRaw("data/openflights_airports");
-	//d.randomizeFlights(5000000);
+	//d.randomizeFlights(1000000);
 
 	//g.insert(d);
 	//g.exportGraph("data/ourDataSet");
