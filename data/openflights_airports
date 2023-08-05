@@ -5858,7 +5858,7 @@
 7906,"Monywar Airport","Monywa","Burma","NYW","VYMY",22.221638,95.093479,298,6.5,"N","Asia/Rangoon","airport","OurAirports"
 7907,"Ohio University Snyder Field","Athens","United States","ATO","KUNI",39.2109985352,-82.23139953610001,766,-5,"U","America/New_York","airport","OurAirports"
 7908,"Springfield-Beckley Municipal Airport","Springfield","United States","SGH","KSGH",39.840301513672,-83.840202331543,1051,-5,"A","America/New_York","airport","OurAirports"
-7909,"Sun Island Resort and SPA","South Aari Atoll","Maldives",\N,\N,3.488334,72.862989,0,-3,"N","America/Sao_Paulo","airport","OurAirports"
+7909,"Sun Island Resort and SPA","South Aari Atoll","Maldives",\N,"\N",3.488334,72.862989,0,-3,"N","America/Sao_Paulo","airport","OurAirports"
 7910,"Fes Sefrou Airport","Fes","Morocco",\N,"GMFU",34.00809860229492,-4.965559959411621,1539,0,"U","Africa/Casablanca","airport","OurAirports"
 7911,"Herrera Airport","Santo Domingo","Dominican Republic","HEX","MDHE",18.4696998596,-69.9693984985,190,-4,"U","America/Santo_Domingo","airport","OurAirports"
 7912,"Cooinda Airport","Cooinda","Australia","CDA","YCOO",-12.903300285339355,132.53199768066406,13,9.5,"U","Australia/Darwin","airport","OurAirports"

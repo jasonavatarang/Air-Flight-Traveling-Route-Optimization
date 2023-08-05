@@ -71,8 +71,10 @@ void PromptWindow(Graph& graph)
 	bool new_path = false;
 	std::string from = "";
 	std::string to = "";
-	//from = "Yaoqiang Airport";
-	//to = "John F Kennedy International Airport";
+
+	new_path = true;
+	from = "John F Kennedy International Airport, KJFK";
+	to = "Yaoqiang Airport, ZSJN";
 
 	std::thread GraphWindow_thread([&] {GraphWindow(graph, from, to, new_path); });
 	GraphWindow_thread.detach();
@@ -189,25 +191,28 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 			std::unordered_set<std::string> stops;
 			std::vector<std::pair<int, int>> bfs_pixel, dijk_pixel, astr_pixel; // pixel<x, y>
 
+			// Get displacement
+			std::cout << graph.Displacement(from, to) << std::endl;
+
 			// Get new path from graph
 			path = graph.BFS(from, to, cost, time);
 			for (std::string& airport : path) {
 				stops.insert(airport);
 				bfs_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
 			}
-			std::cout << cost << std::endl;
+			std::cout << cost << " " << time << std::endl;
 			path = graph.Dijkstra(from, to, cost, time);
 			for (std::string& airport : path) {
 				stops.insert(airport);
 				dijk_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
 			}
-			std::cout << cost << std::endl;
+			std::cout << cost << " " << time << std::endl;
 			path = graph.Astar(from, to, cost, time);
 			for (std::string& airport : path) {
 				stops.insert(airport);
 				astr_pixel.push_back(coord2pixel(graph.getCoordinates(airport), window_size));
 			}
-			std::cout << cost << std::endl;
+			std::cout << cost << " " << time << std::endl;
 
 			// Create objects representing airports (also their names?)
 			for (auto iter = stops.begin(); iter != stops.end(); ++iter) {
@@ -225,7 +230,7 @@ void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_pat
 				pathDisplay(dijk_pixel[i - 1], dijk_pixel[i], color, 4, paths);
 
 			// Draw Astar path
-			color = Color::Blue;
+			color = Color::Yellow;
 			for (int i = 1; i < astr_pixel.size(); ++i)
 				pathDisplay(astr_pixel[i - 1], astr_pixel[i], color, 2, paths);
 

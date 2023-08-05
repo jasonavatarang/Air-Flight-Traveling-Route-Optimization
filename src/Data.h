@@ -4,17 +4,13 @@ class Data
 {
 	struct Airport {
 		std::string name;
-		double latitude = 0;
-		double longitude = 0;
+		long double latitude = 0;
+		long double longitude = 0;
 	};
 	struct Flight {
 		int from_id = -1;
 		int to_id = -1;
-		unsigned int distance = 0;
 	};
-
-	double toRadians(const double& degree);
-	unsigned int GCdistance(double lat1, double long1, double lat2, double long2);
 
 public:
 	std::vector<Airport> airports;

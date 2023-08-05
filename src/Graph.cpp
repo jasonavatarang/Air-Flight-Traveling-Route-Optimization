@@ -8,44 +8,48 @@
 using namespace std;
 
 // Degrees to Radians
-double Graph::toRadians(const double& degree)
+void Graph::toRadians(long double& degree)
 {
-	return degree * M_PI / 180.0;
+	degree *= M_PI / 180.0;
 }
 
 // Calculate great-circle distance
-unsigned int Graph::GCdistance(double lat1, double lon1, double lat2, double lon2)
+unsigned int Graph::GCdistance(long double lat1, long double lon1, long double lat2, long double lon2)
 {
-	lat1 = toRadians(lat1);
-	lon1 = toRadians(lon1);
-	lat2 = toRadians(lat2);
-	lon2 = toRadians(lon2);
+	long double dlat = abs(lat1 - lat2);
+	long double dlon = abs(lon1 - lon2);
+
+	toRadians(lat1);
+	toRadians(lon1);
+	toRadians(lat2);
+	toRadians(lon2);
+	toRadians(dlat);
+	toRadians(dlon);
 
 	// Haversine Formula
-	double dlat = abs(lat1 - lat2);
-	double dlon = abs(lon1 - lon2);
-	double ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon / 2), 2);
+	long double ans = pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon / 2), 2);
 	ans = 2 * asin(sqrt(ans));
 
-	// Radius of Earth, R = 6371 km OR 3956 miles
-	double R = 6371;
+	// Average radius of Earth, R = 6371009 m
+	long double R = 6371009;
 
 	return ans * R;
 }
 
 // Search for airport name
-bool Graph::search(string& airport) {
+bool Graph::search(string& airport)
+{
 	return ids.find(airport) != ids.end();
 }
 
 // Return coordinates of an airport
-pair<double, double> Graph::getCoordinates(const string& airport)
+pair<long double, long double> Graph::getCoordinates(const string& airport)
 {
 	return coordinates[ids[airport]];
 }
 
 // Initialize one single node
-void Graph::add(string& element, double& lat, double& lon)
+void Graph::add(string& element, long double& lat, long double& lon)
 {
 	if (ids.find(element) != ids.end())
 		return;
@@ -73,7 +77,7 @@ vector<string> Graph::reconstruct_path(int start, int to, vector<int>& came_from
 }
 
 // Insert an edge to the graph
-void Graph::insert(string from, string to, unsigned int weight, double lat1, double lon1, double lat2, double lon2)
+void Graph::insert(string from, string to, unsigned int weight, long double lat1, long double lon1, long double lat2, long double lon2)
 {
 	// Initialize
 	add(from, lat1, lon1);
@@ -91,8 +95,9 @@ void Graph::insert(string from, string to, unsigned int weight, double lat1, dou
 void Graph::insert(Data& data)
 {
 	for (int i = 0; i < data.flights.size(); ++i)
-		insert(string(data.airports[data.flights[i].from_id].name), string(data.airports[data.flights[i].to_id].name),
-			data.flights[i].distance,
+		insert(data.airports[data.flights[i].from_id].name, data.airports[data.flights[i].to_id].name,
+			GCdistance(data.airports[data.flights[i].from_id].latitude, data.airports[data.flights[i].from_id].longitude,
+				data.airports[data.flights[i].to_id].latitude, data.airports[data.flights[i].to_id].longitude),
 			data.airports[data.flights[i].from_id].latitude, data.airports[data.flights[i].from_id].longitude,
 			data.airports[data.flights[i].to_id].latitude, data.airports[data.flights[i].to_id].longitude);
 }
@@ -121,7 +126,7 @@ bool Graph::exportGraph(std::string filename)
 			fout.write((char*)&e, sizeof(e));
 	}
 	// write coordinates
-	for (pair<double, double>& coord : coordinates)
+	for (pair<long double, long double>& coord : coordinates)
 		fout.write((char*)&coord, sizeof(coord));
 
 	fout.close();
@@ -139,7 +144,7 @@ bool Graph::importGraph(std::string filename)
 	fin.read((char*)&size, sizeof(size));
 
 	// read names
-	for (int i = 0; i < size;++i) {
+	for (int i = 0; i < size; ++i) {
 		unsigned short n_size;
 		fin.read((char*)&n_size, sizeof(n_size));
 		char* name = new char[n_size];
@@ -161,7 +166,7 @@ bool Graph::importGraph(std::string filename)
 	}
 	// read coordinates
 	for (int i = 0; i < size; ++i) {
-		pair<double, double> coord;
+		pair<long double, long double> coord;
 		fin.read((char*)&coord, sizeof(coord));
 		coordinates.push_back(coord);
 	}
@@ -185,21 +190,19 @@ vector<string> Graph::BFS(string& from, string& to, unsigned int& cost)
 	queue<int> q;
 	vector<int> came_from(size, -1);
 	vector<unsigned int> cost_so_far(size, UINT_MAX);
-	vector<bool> visited(size, false);
 
+	came_from[ids[from]] = ids[from];
 	q.push(ids[from]);
 
 	while (!q.empty()) {
 		int current = q.front();
-		visited[current] = true;
 		q.pop();
 
-		if (current == ids[to]) {
+		if (current == ids[to])
 			break;
-		}
 
 		for (pair<int, unsigned int>& next : adj_list[current]) {
-			if (!visited[next.first]) {
+			if (came_from[next.first] == -1) {
 				came_from[next.first] = current;
 				cost_so_far[next.first] = cost_so_far[current] + next.second;
 				q.push(next.first);
@@ -231,21 +234,18 @@ vector<string> Graph::Astar(string& from, string& to, unsigned int& cost)
 	priority_queue<pair<unsigned int, int>, vector<pair<unsigned int, int>>, greater<pair<unsigned int, int>>> pq;
 	vector<int> came_from(size, -1);
 	vector<unsigned int> cost_so_far(size, UINT_MAX);
-	vector<bool> visited(size, false);
 
-	pair<double, double> dest_coordinates(coordinates[ids[to]].first, coordinates[ids[to]].second);
+	pair<long double, long double> dest_coordinates(coordinates[ids[to]].first, coordinates[ids[to]].second);
 
 	cost_so_far[ids[from]] = 0;
 	pq.emplace(cost_so_far[ids[from]], ids[from]);
 
 	while (!pq.empty()) {
 		int current = pq.top().second;
-		visited[current] = true;
 		pq.pop();
 
-		if (current == ids[to]) {
+		if (current == ids[to])
 			break;
-		}
 
 		for (pair<int, unsigned int>& next : adj_list[current]) {
 			unsigned int new_cost = cost_so_far[current] + next.second;
@@ -253,8 +253,7 @@ vector<string> Graph::Astar(string& from, string& to, unsigned int& cost)
 				came_from[next.first] = current;
 				cost_so_far[next.first] = new_cost;
 				// Heuristic formula: cost_so_far + distance_to_destination
-				if (!visited[next.first])
-					pq.emplace(cost_so_far[next.first] + GCdistance(coordinates[next.first].first, coordinates[next.first].second, dest_coordinates.first, dest_coordinates.second), next.first);
+				pq.emplace(cost_so_far[next.first] + GCdistance(coordinates[next.first].first, coordinates[next.first].second, dest_coordinates.first, dest_coordinates.second), next.first);
 			}
 		}
 	}
@@ -283,27 +282,23 @@ vector<string> Graph::Dijkstra(string& from, string& to, unsigned int& cost)
 	priority_queue<pair<unsigned int, int>, vector<pair<unsigned int, int>>, greater<pair<unsigned int, int>>> pq;
 	vector<int> came_from(size, -1);
 	vector<unsigned int> cost_so_far(size, UINT_MAX);
-	vector<bool> visited(size, false);
 
 	cost_so_far[ids[from]] = 0;
-	pq.emplace(cost_so_far[ids[from]], ids[from]);
+	pq.emplace(0, ids[from]);
 
 	while (!pq.empty()) {
 		int current = pq.top().second;
-		visited[current] = true;
 		pq.pop();
 
-		if (current == ids[to]) {
+		if (current == ids[to])
 			break;
-		}
 
 		for (pair<int, unsigned int>& next : adj_list[current]) {
 			unsigned int new_cost = cost_so_far[current] + next.second;
 			if (new_cost < cost_so_far[next.first]) {
 				came_from[next.first] = current;
 				cost_so_far[next.first] = new_cost;
-				if (!visited[next.first])
-					pq.emplace(cost_so_far[next.first], next.first);
+				pq.emplace(cost_so_far[next.first], next.first);
 			}
 		}
 	}
