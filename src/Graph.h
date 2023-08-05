@@ -17,17 +17,17 @@ private:
 	std::vector<std::vector<std::pair<int, unsigned int>>> adj_list; // adj_list<id, weight>
 
 	// coordinates
-	std::vector<std::pair<long double, long double>> coordinates; // coordinates<latitude, longitude>
+	std::vector<std::pair<double, double>> coordinates; // coordinates<latitude, longitude>
 
-	void toRadians(long double& degree);
-	unsigned int GCdistance(long double lat1, long double lon1, long double lat2, long double lon2);
+	void toRadians(double& degree);
+	unsigned int GCdistance(double lat1, double lon1, double lat2, double lon2);
 
-	void add(std::string& element, long double& lat, long double& lon);
+	void add(std::string& element, double& lat, double& lon);
 	std::vector<std::string> reconstruct_path(int start, int to, std::vector<int>& came_from);
 
 public:
 	// Modifiers
-	void insert(std::string from, std::string to, unsigned int weight, long double lat1, long double long1, long double lat2, long double long2);
+	void insert(std::string from, std::string to, unsigned int weight, double lat1, double long1, double lat2, double long2);
 	void insert(Data& data);
 
 	// Export & Import
@@ -36,7 +36,7 @@ public:
 
 	// Observers
 	bool search(std::string& airport);
-	std::pair<long double, long double> getCoordinates(const std::string& airport);
+	std::pair<double, double> getCoordinates(const std::string& airport);
 
 	// Path algms
 	unsigned int Displacement(std::string& from, std::string& to);
