@@ -26,53 +26,53 @@ void PromptWindow(Graph& graph)
 	// Set up "from" label
 	from_text.setFont(font);
 	from_text.setCharacterSize(20);
-	from_text.setFillColor(sf::Color::Black);
+	from_text.setFillColor(Color::Black);
 	from_text.setPosition(50.f, 50.f);
 	from_text.setString("From Airport");
 
 	//"from" textbox
-	sf::RectangleShape from_textbox(sf::Vector2f(200.f, 30.f));
-	from_textbox.setFillColor(sf::Color::White);
-	from_textbox.setOutlineColor(sf::Color::Black);
+	RectangleShape from_textbox(Vector2f(200.f, 30.f));
+	from_textbox.setFillColor(Color::White);
+	from_textbox.setOutlineColor(Color::Black);
 	from_textbox.setOutlineThickness(2.f);
 	from_textbox.setPosition(50.f, 100.f);
 	Text input_from_text;
 	input_from_text.setFont(font);
 	input_from_text.setCharacterSize(20);
-	input_from_text.setFillColor(sf::Color::Black);
+	input_from_text.setFillColor(Color::Black);
 	input_from_text.setPosition(50.f, 100.f);
 
 
 	//"to" textbox
-	sf::RectangleShape to_textbox(sf::Vector2f(200.f, 30.f));
-	to_textbox.setFillColor(sf::Color::White);
-	to_textbox.setOutlineColor(sf::Color::Black);
+	RectangleShape to_textbox(Vector2f(200.f, 30.f));
+	to_textbox.setFillColor(Color::White);
+	to_textbox.setOutlineColor(Color::Black);
 	to_textbox.setOutlineThickness(2.f);
 	to_textbox.setPosition(50.f, 200.f);
 
 	Text input_to_text;
 	input_to_text.setFont(font);
 	input_to_text.setCharacterSize(20);
-	input_to_text.setFillColor(sf::Color::Black);
+	input_to_text.setFillColor(Color::Black);
 	input_to_text.setPosition(50.f, 200.f);
 
-	RectangleShape button(sf::Vector2f(200.f, 50.f));
-	button.setFillColor(sf::Color::Blue);
-	button.setPosition(50.f, 250.f);	// Set up "submit" button
+	RectangleShape button(Vector2f(200.f, 50.f));
+	button.setFillColor(Color::Blue);
+	button.setPosition(50.f, 250.f);
 
 	// Set up "submit" label
 	Text submit_label;
 	submit_label.setFont(font);
 	submit_label.setString("Find Path:)");
 	submit_label.setCharacterSize(24);
-	submit_label.setFillColor(sf::Color::White);
+	submit_label.setFillColor(Color::White);
 	submit_label.setPosition(50.f, 250.f);
 
 	bool new_path = false;
-	//std::string from = "Yaoqiang Airport";
-	//std::string to = "John F Kennedy International Airport";
 	std::string from = "";
 	std::string to = "";
+	//from = "Yaoqiang Airport";
+	//to = "John F Kennedy International Airport";
 
 	std::thread GraphWindow_thread([&] {GraphWindow(graph, from, to, new_path); });
 	GraphWindow_thread.detach();
@@ -85,75 +85,58 @@ void PromptWindow(Graph& graph)
 		Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == Event::Closed)
+			switch (event.type) {
+			case Event::Closed:
 			{
 				window.close();
+				break;
 			}
-
-			else if (event.type == Event::MouseButtonPressed)
+			case Event::MouseButtonPressed:
 			{
 				// store mouse position
 				Vector2i mousePos = Mouse::getPosition(window);
 
 				// "from" textbox
-				if (from_textbox.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
-				{
-					from_textbox_selected = true;
-				}
-				else
-				{
-					from_textbox_selected = false;
-				}
+				from_textbox_selected = from_textbox.getGlobalBounds().contains(mousePos.x, mousePos.y) ? true : false;
 
 				// "to" text box
-				if (to_textbox.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
-				{
-					to_textbox_selected = true;
-				}
-				else
-				{
-					to_textbox_selected = false;
-				}
-
+				to_textbox_selected = to_textbox.getGlobalBounds().contains(mousePos.x, mousePos.y) ? true : false;
 
 				// submit button
-				if (button.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y)))
-				{
+				if (button.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
 					// Update the from, to, and new_path variables
+					from = input_from_text.getString();
+					to = input_to_text.getString();
 					std::cout << from << std::endl;
 					std::cout << to << std::endl;
 					new_path = true;
 				}
+				break;
 			}
-			else if (event.type == Event::TextEntered) {
+			case Event::TextEntered:
+			{
 				if (from_textbox_selected) {
-					if (event.text.unicode < 128) {
-						if (event.text.unicode == '\b' && !input_from_text.getString().isEmpty()) {
-							std::string temp = input_from_text.getString();
-							temp.pop_back();
-							input_from_text.setString(temp);
-						}
-						else {
-							input_from_text.setString(input_from_text.getString() + static_cast<char>(event.text.unicode));
-
-						}
-						from = input_from_text.getString();
+					std::string temp = input_from_text.getString();
+					if (event.text.unicode == '\b' && !temp.empty()) {
+						temp.pop_back();
+						input_from_text.setString(temp);
+					}
+					else if (event.text.unicode > 31 && event.text.unicode < 127) {
+						input_from_text.setString(temp + event.text.unicode);
 					}
 				}
-				if (to_textbox_selected) {
-					if (event.text.unicode < 128) {
-						if (event.text.unicode == '\b' && !input_to_text.getString().isEmpty()) {
-							std::string temp = input_to_text.getString();
-							temp.pop_back();
-							input_to_text.setString(temp);
-						}
-						else {
-							input_to_text.setString(input_to_text.getString() + static_cast<char>(event.text.unicode));
-
-						}
-						to = input_to_text.getString();
+				else if (to_textbox_selected) {
+					std::string temp = input_to_text.getString();
+					if (event.text.unicode == '\b' && !temp.empty()) {
+						temp.pop_back();
+						input_to_text.setString(temp);
+					}
+					else if (event.text.unicode > 31 && event.text.unicode < 127) {
+						input_to_text.setString(temp + event.text.unicode);
 					}
 				}
+				break;
+			}
 			}
 		}
 
@@ -170,6 +153,7 @@ void PromptWindow(Graph& graph)
 		window.display();
 	}
 }
+
 
 void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_path)
 {
@@ -268,7 +252,7 @@ std::pair<int, int> coord2pixel(std::pair<double, double> coordinates, std::pair
 }
 
 
-void airportDisplay(std::pair<int, int> airport, std::vector<sf::CircleShape>& airports)
+void airportDisplay(std::pair<int, int> airport, std::vector<CircleShape>& airports)
 {
 	int radius = 5;
 	int index = airports.size();
