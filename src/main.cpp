@@ -7,10 +7,18 @@
 
 int main()
 {
+
 	Graph g;
+
+	//Data d;
+	//d.openRaw("data/openflights_airports");
+	//d.randomizeFlights(5000000);
+
+	//g.insert(d);
+	//g.exportGraph("data/ourDataSet");
+
+
 	g.importGraph("data/ourDataSet");
-
-
 	PromptWindow(g);
 
 
