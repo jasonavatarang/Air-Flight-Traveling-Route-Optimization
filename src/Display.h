@@ -1,4 +1,5 @@
 #pragma once
+#include "SFML/Graphics.hpp"
 
 void PromptWindow(Graph& graph);
 void GraphWindow(Graph& graph, std::string& from, std::string& to, bool& new_path);

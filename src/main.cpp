@@ -1,7 +1,6 @@
 #pragma comment(lib, "SFML/lib/sfml-graphics.lib")
 #pragma comment(lib, "SFML/lib/sfml-window.lib")
 #pragma comment(lib, "SFML/lib/sfml-system.lib")
-#include "SFML/Graphics.hpp"
 #include "Graph.h"
 #include "Display.h"
 
