@@ -39,7 +39,7 @@ bool Data::openRaw(string filename)
 		str = str.substr(str.find(delim) + 2);
 
 		airport.latitude = stold(str.substr(0, str.find(',')));
-		
+
 		str = str.substr(str.find(',') + 1);
 
 		airport.longitude = stold(str.substr(0, str.find(',')));
@@ -50,7 +50,7 @@ bool Data::openRaw(string filename)
 }
 
 // Randomize flights, namely edges
-void Data::randomizeFlights(int num)
+void Data::randomizeFlights(unsigned int num)
 {
 	if (airports.size() == 0)
 		return;
@@ -59,15 +59,18 @@ void Data::randomizeFlights(int num)
 	mt19937 rng(dev());
 	uniform_int_distribution<mt19937::result_type> dist(0, airports.size() - 1);
 
-	while (num > 0) {
-		Flight flight;
-		flight.from_id = dist(rng);
-		flight.to_id = dist(rng);
-		if (flight.from_id == flight.to_id)
-			continue;
+	unsigned int outdegree = num / airports.size() + 1;
 
-		flights.push_back(flight);
-		--num;
+	for (unsigned int i = 0; i < airports.size(); ++i) {
+		for (unsigned int j = 0; j < outdegree; ++j) {
+			Flight flight;
+			flight.from_id = i;
+			flight.to_id = dist(rng);
+			if (flight.from_id == flight.to_id)
+				continue;
+
+			flights.push_back(flight);
+		}
 	}
 }
 

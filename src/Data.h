@@ -17,7 +17,7 @@ public:
 	std::vector<Flight> flights;
 
 	bool openRaw(std::string filename);
-	void randomizeFlights(int num);
+	void randomizeFlights(unsigned int num);
 
 	void printFlights();
 };
