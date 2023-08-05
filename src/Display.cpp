@@ -43,6 +43,13 @@ void PromptWindow(Graph& graph)
 	input_from_text.setPosition(50.f, 100.f);
 
 
+	// Set up "to" label
+	to_text.setFont(font);
+	to_text.setCharacterSize(20);
+	to_text.setFillColor(Color::Black);
+	to_text.setPosition(50.f, 150.f);
+	to_text.setString("To Airport");
+
 	//"to" textbox
 	RectangleShape to_textbox(Vector2f(200.f, 30.f));
 	to_textbox.setFillColor(Color::White);
