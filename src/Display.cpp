@@ -81,10 +81,6 @@ void PromptWindow(Graph& graph)
 	std::string from = "";
 	std::string to = "";
 
-	new_path = true;
-	from = "Westport Airport, NZWS";
-	to = "Rafael Cabrera Airport, MUNG";
-
 	std::thread GraphWindow_thread([&] {GraphWindow(graph, from, to, new_path, result); });
 	GraphWindow_thread.detach();
 	bool from_textbox_selected = false;
